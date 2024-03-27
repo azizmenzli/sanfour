@@ -13,6 +13,7 @@ import NewAdmin from "./pages/NewAdmin";
 import NewSeller from "./pages/NewSeller";
 import Runsheet from "./pages/Runsheet";
 import BonDeLivraison from "./pages/BonDeLivraison";
+import FourDash from "./pages/FourDash";
 /*import Login from "./Components/Login/Login";*/
 /*import { useSelector } from "react-redux";*/
 
@@ -28,6 +29,8 @@ function App() {
           <Route path="/"element={/*authUser ?*/ <Home></Home> /*: <Login></Login>*/}></Route>
 
           <Route path="/Dashboard" element={<Dashboard></Dashboard>}></Route>
+
+          <Route path="/fournisseur-dashboard" element={<FourDash></FourDash>}></Route>
 
           <Route path="/Nv-expedition" element={<NvExpedition></NvExpedition>}></Route>
           

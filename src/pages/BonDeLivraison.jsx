@@ -157,7 +157,7 @@ const BonDeLivraison = ({ expediteur, destinataire }) => {
             </thead>
             <tbody>
               <tr>
-                <td style={{textAlign:'center'}}>70€</td>
+                <td style={{textAlign:'center'}}>780</td>
               </tr>
             </tbody>
           </table>

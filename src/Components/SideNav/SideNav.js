@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { FcComboChart, FcInTransit, FcPlus,FcFilingCabinet, FcOk,FcTodoList  } from "react-icons/fc";
-import { BiBarcodeReader, BiBookmarkAltPlus } from "react-icons/bi";
+import { BiBarcodeReader } from "react-icons/bi";
 
 const SideNav = ({ children, role }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +18,10 @@ const SideNav = ({ children, role }) => {
 } else {
   menuItems =[
     { path: "/Dashboard", name: "Dashboard", icon: <FcComboChart /> },
+    { path: "/Nv-expedition", name: "Nv expedition", icon: <FcPlus /> },
+    { path: "/", name: "Suivi de colis", icon: <FcInTransit /> },
+    
+    { path: "/fournisseur-dashboard", name: "FourDash", icon: <FcComboChart /> },
     {
       path: "/Livraisonaaccepter",
       name: "Livraison à accepter",
