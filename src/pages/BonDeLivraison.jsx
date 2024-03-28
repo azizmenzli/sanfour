@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "../assets/images/logo.png";
 import Codebarre from "../assets/images/code-barres.gif";
 
-const BonDeLivraison = ({ expediteur, destinataire }) => {
+const BonDeLivraison = ({ expediteur, destinataire,article }) => {
   // Fonction pour déclencher l'impression
   const handlePrint = () => {
     window.print();
@@ -111,7 +111,7 @@ const BonDeLivraison = ({ expediteur, destinataire }) => {
         <section className="info">
           <div className="expediteur">
             <h2>Expéditeur</h2>
-            <p>Nom:{/*expediteur.nom*/}</p>
+            <p>Nom:{article}</p>
             <p>Adresse:{/*expediteur.adresse*/}</p>
             <p>Ville:{/*expediteur.ville}*/}</p>
             <p>Téléphone: {/*expediteur.telephone*/}</p>
@@ -157,7 +157,7 @@ const BonDeLivraison = ({ expediteur, destinataire }) => {
             </thead>
             <tbody>
               <tr>
-                <td style={{textAlign:'center'}}>780</td>
+                <td style={{textAlign:'center'}}>70 €</td>
               </tr>
             </tbody>
           </table>
