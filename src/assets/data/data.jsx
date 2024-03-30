@@ -11,7 +11,8 @@ const mockUsers = [
     AdresseFournisseur: "48 rue de tunis",
     VilleFournisseur: "Rades",
     TelClient: "22485697",
-    TelFournisseur: "55248976"
+    TelFournisseur: "55248976",
+    OuvrirColis: "oui"
   },
   {
     id: 2,
@@ -25,7 +26,8 @@ const mockUsers = [
     AdresseFournisseur: "48 rue de tunis",
     VilleFournisseur: "Rades",
     TelClient: "22485697",
-    TelFournisseur: "55248976"
+    TelFournisseur: "55248976",
+    OuvrirColis: "oui"
   },
   {
     id: 3,
@@ -39,7 +41,8 @@ const mockUsers = [
     AdresseFournisseur: "99 rue de tunis",
     VilleFournisseur: "Hammam chat",
     TelClient: "22485697",
-    TelFournisseur: "55248976"
+    TelFournisseur: "55248976",
+    OuvrirColis: "oui"
   },
   {
     id: 4,
@@ -53,7 +56,8 @@ const mockUsers = [
     AdresseFournisseur: "11 rue de tunis",
     VilleFournisseur: "Ben arous",
     TelClient: "22485697",
-    TelFournisseur: "55248976"
+    TelFournisseur: "55248976",
+    OuvrirColis: "oui"
   },
   {
     id: 5,
@@ -67,7 +71,8 @@ const mockUsers = [
     AdresseFournisseur: "487 rue de tunis",
     VilleFournisseur: "Ariana",
     TelClient: "22485697",
-    TelFournisseur: "55248976"
+    TelFournisseur: "55248976",
+    OuvrirColis: "oui"
   },
   {
     id: 6,
@@ -81,7 +86,8 @@ const mockUsers = [
     AdresseFournisseur: "48 rue de tunis",
     VilleFournisseur: "Rades",
     TelClient: "22485697",
-    TelFournisseur: "55248976"
+    TelFournisseur: "55248976",
+    OuvrirColis: "oui"
   },
   {
     id: 7,
@@ -95,7 +101,8 @@ const mockUsers = [
     AdresseFournisseur: "48 rue de tunis",
     VilleFournisseur: "Rades",
     TelClient: "22485697",
-    TelFournisseur: "55248976"
+    TelFournisseur: "55248976",
+    OuvrirColis: "oui"
   },
   {
     id: 8,
@@ -109,7 +116,8 @@ const mockUsers = [
     AdresseFournisseur: "99 rue de tunis",
     VilleFournisseur: "Hammam chat",
     TelClient: "22485697",
-    TelFournisseur: "55248976"
+    TelFournisseur: "55248976",
+    OuvrirColis: "oui"
   },
   {
     id: 9,
@@ -123,7 +131,8 @@ const mockUsers = [
     AdresseFournisseur: "11 rue de tunis",
     VilleFournisseur: "Ben arous",
     TelClient: "22485697",
-    TelFournisseur: "55248976"
+    TelFournisseur: "55248976",
+    OuvrirColis: "oui"
   },
   {
     id: 10,
@@ -137,7 +146,8 @@ const mockUsers = [
     AdresseFournisseur: "487 rue de tunis",
     VilleFournisseur: "Ariana",
     TelClient: "22485697",
-    TelFournisseur: "55248976"
+    TelFournisseur: "55248976",
+    OuvrirColis: "oui"
   },
 ];
 

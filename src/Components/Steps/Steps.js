@@ -1,8 +1,5 @@
 import { Timeline } from 'rsuite';
-import CreditCardIcon from '@rsuite/icons/legacy/CreditCard';
 import { FcInTransit, FcSynchronize,FcShop  } from "react-icons/fc";
-import TruckIcon from '@rsuite/icons/legacy/Truck';
-import UserIcon from '@rsuite/icons/legacy/User';
 import CheckIcon from '@rsuite/icons/legacy/Check';
 
 const Steps = () => (

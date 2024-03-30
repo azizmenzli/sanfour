@@ -5,7 +5,8 @@ import NavBar from "../Components/Barnav/NavBar";
 import SideNav from "../Components/SideNav/SideNav";
 
 const LivraisonAaccepter = () => {
-  const livraisonsEnAttente = mockUsers.filter(livraison => livraison.StatutDeLivraison === "En attente");
+// Filtrer les livraisons avec le statut "En attente"
+const livraisonsEnAttente = mockUsers.filter(livraison => livraison.StatutDeLivraison === "En attente");
 
     return (
         <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -46,7 +47,7 @@ const LivraisonAaccepter = () => {
               </h2>
             </div>
             {/* Tableau affiché ici */}
-            <Tablev livraisons={livraisonsEnAttente}/>
+            <Tablev statusFilter="En attente"/>
           </div>
         </div>
       </div>
