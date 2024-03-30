@@ -1,9 +1,22 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
+import mockUsers from "../assets/data/data"; // Assurez-vous que le chemin est correct
 import Logo from "../assets/images/logo.png";
 import Codebarre from "../assets/images/code-barres.gif";
 
-const BonDeLivraison = ({ expediteur, destinataire,article }) => {
-  // Fonction pour déclencher l'impression
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
+const BonDeLivraison = () => {
+  let query = useQuery();
+  let id = parseInt(query.get("id"), 10); // Convertit l'ID en nombre
+  const livraison = mockUsers.find((livraison) => livraison.id === id);
+
+  if (!livraison) {
+    return <p>Livraison non trouvée.</p>;
+  }
+
   const handlePrint = () => {
     window.print();
   };
@@ -11,75 +24,98 @@ const BonDeLivraison = ({ expediteur, destinataire,article }) => {
   return (
     <>
       <style>{`
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .header-logo {
-            width: 100px;
-        }
-
-        .header-title {
-            text-align: right;
-            flex-grow: 1;
-        }
-
-        .codebarres {
-            display: block;
-            margin: auto;
-            margin-top: 10px; /* Ajustez selon vos besoins */
-            width: 100px; /* Ajustez la largeur selon la taille souhaitée du code-barres */
-            height: auto; /* Gardez le ratio de l'image */
-          }
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-
         .bon-de-livraison {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          font-family: Arial, sans-serif;
+          max-width: 800px;
+          margin: auto;
+          background: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
+        .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          margin-bottom: 20px;
+        }
+        .header-logo {
+          width: 120px;
+          flex: 1;
+        }
+        .header-title {
+          text-align: right;
+          flex-grow: 2;
+        }
+        .codebarres-container {
+          width: 100%; /* Prend toute la largeur */
+          display: flex;
+          justify-content: center; /* Centre le code barres */
+          margin: 20px 0; /* Ajoute un peu d'espace autour du code barres */
+        }
+        .codebarres {
+          width: 120px; /* Largeur du code barres */
+        }
         .info {
-            display: flex;
-            justify-content: space-between;
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
         }
-
-        .info div {
-            flex-basis: 48%;
+        .info > div {
+          width: 48%;
         }
-
+        .articles {
+          margin-bottom: 20px;
+        }
+      
+        .articles h2 {
+          text-align: center;
+          color: #333;
+          margin-bottom: 15px;
+        }
+      
         .articles table {
-            width: 100%;
-            border-collapse: collapse;
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Ombre douce pour le tableau */
         }
-
+      
         .articles th, .articles td {
-            border: 1px solid #ddd;
-            text-align: left;
-            padding: 8px;
+          text-align: left;
+          padding: 12px 15px;
+          border-bottom: 1px solid #ddd;
         }
-
+      
         .articles th {
-            background-color: #f2f2f2;
+          background-color: #007bff;
+          color: white;
+          font-weight: bold;
         }
-
-        footer {
-            text-align: center;
-            font-weight: bold;
+      
+        /* Style pour la ligne TOTAL */
+        .articles .total-row th {
+          text-align: center;
+          color: black;
+          background-color: #f8f9fa; /* Couleur légère pour la ligne TOTAL */
+          border-top: 3px solid #D8D2D0;
         }
-
+      
+        .articles .total-row td {
+          font-weight: bold;
+          border-top: 3px solid #D8D2D0;
+        }
+        .print-button {
+          display: block;
+          margin: 20px auto;
+          padding: 10px 20px;
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
         @media print {
           body * {
             visibility: hidden;
@@ -91,6 +127,7 @@ const BonDeLivraison = ({ expediteur, destinataire,article }) => {
             position: absolute;
             left: 0;
             top: 0;
+            box-shadow: none;
           }
           .print-button {
             display: none;
@@ -100,84 +137,61 @@ const BonDeLivraison = ({ expediteur, destinataire,article }) => {
       <div className="bon-de-livraison">
         <header className="header">
           <img src={Logo} alt="Logo" className="header-logo" />
-          <h1 className="header-title">
-            Bon de Livraison <strong>N°:000000</strong>
-          </h1>
-        </header>
-        <div>
+          <div className="header-title">
+            <h1>
+              Bon de Livraison <strong>N°{livraison.id}</strong>
+            </h1>
+          </div>
+          <div className="codebarres-container">
           <img src={Codebarre} alt="Code Barres" className="codebarres" />
-        </div>
-        <br/>
-        <section className="info">
-          <div className="expediteur">
+          </div>
+        </header>
+        <div className="info">
+          <div>
             <h2>Expéditeur</h2>
-            <p>Nom:{article}</p>
-            <p>Adresse:{/*expediteur.adresse*/}</p>
-            <p>Ville:{/*expediteur.ville}*/}</p>
-            <p>Téléphone: {/*expediteur.telephone*/}</p>
+            <p>Nom: {livraison.Fournisseur}</p>
+            <p>Adresse: {livraison.AdresseFournisseur}</p>
+            <p>Ville: {livraison.VilleFournisseur}</p>
+            <p>Téléphone: {livraison.TelFournisseur}</p>
           </div>
-          <div className="destinataire">
+          <div>
             <h2>Destinataire</h2>
-            <p>Nom:{/*destinataire.nom*/}</p>
-            <p>Adresse de livraison:{/*destinataire.adresseLivraison*/}</p>
-            <p>Ville:{/*destinataire.ville}*/}</p>
-            <p>Téléphone: {/*destinataire.portable*/}</p>
+            <p>Nom: {livraison.Client}</p>
+            <p>Adresse de livraison: {livraison.AdresseLivraison}</p>
+            <p>Ville: {livraison.VilleLivraison}</p>
+            <p>Téléphone: {livraison.TelClient}</p>
           </div>
-        </section>
-        <br />
+        </div>
         <section className="articles">
-          <h2>Articles Expédiés</h2>
+          <h2>Détail de la livraison</h2>
           <table>
             <thead>
               <tr>
-                <th>Colis</th>
                 <th>Article</th>
                 <th>Prix</th>
               </tr>
             </thead>
             <tbody>
-              {/* Exemple d'articles - à remplir dynamiquement */}
               <tr>
-                <td>Colis 1</td>
-                <td>Nom de l'article</td>
-                <td>30 €</td>
+                <td>{livraison.Produit}</td>
+                <td>{livraison.Prix}</td>
               </tr>
-              <tr>
-                <td>Colis 2</td>
-                <td>Nom de l'article</td>
-                <td>40 €</td>
-              </tr>
+              {/* Ajouter d'autres lignes d'articles ici si nécessaire */}
             </tbody>
-          </table>
-          <table>
-            <thead>
+            <tfoot className="total-row">
               <tr>
-                <th style={{textAlign:'center'}}>Total</th>
+                <th>Total</th>
+                <td>{livraison.Prix}</td>{" "}
+                {/* Assurez-vous de calculer le total si plusieurs articles */}
               </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style={{textAlign:'center'}}>70 €</td>
-              </tr>
-            </tbody>
+            </tfoot>
           </table>
-          
         </section>
-        <br />
-        <footer>
-          <h1>
-            Le destinataire est autorisé à ouvrir le colis avant de le payer:{" "}
-            <strong>oui ▢ non ▢</strong>
-          </h1>
-          <br />
+        <footer style={{textAlign:'center'}}>
           <p>Merci de faire affaire avec nous !</p>
         </footer>
       </div>
-      <button
-        onClick={handlePrint}
-        className="print-button"
-        style={{ border: "solid", borderColor: "black", borderRadius: "10px" }}
-      >
+      <button onClick={handlePrint} className="print-button">
         Imprimer le Bon de Livraison
       </button>
     </>
