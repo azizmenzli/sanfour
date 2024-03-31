@@ -32,7 +32,8 @@ const livraisonsEnAttente = mockUsers.filter(livraison => livraison.StatutDeLivr
           }}
         ><br/>
           <h1 style={{ fontSize: "35px", color: "#2e2c2c", margin: "20px 0" }}>
-            Livraison à accepter
+          Déposer les colis au dépôt
+
           </h1>
           <div
             style={{
@@ -43,7 +44,7 @@ const livraisonsEnAttente = mockUsers.filter(livraison => livraison.StatutDeLivr
           >
             <div style={{ margin: "20px 0" }}>
               <h2 style={{ fontSize: "20px", color: "#2e2c2c" }}>
-                Confirmer les demandes des livraisons
+              Pointage des colis entrants au dépôt
               </h2>
             </div>
             {/* Tableau affiché ici */}

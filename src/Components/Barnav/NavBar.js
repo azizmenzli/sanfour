@@ -5,8 +5,7 @@ import logo from '../../assets/images/logo.png';
 import { NavLink } from "react-router-dom"; // Assurez-vous que react-router-dom est installé
 
 const NavBar = () => (
-  <Navbar appearance="inverse" style={{ position: 'fixed', width: '100%', display: 'flex' }}>
-    {/* Utilisez NavLink autour de l'image pour la navigation */}
+  <Navbar appearance="inverse" style={{ position: 'fixed', width: '100%', zIndex: 1000, display: 'flex' }}>
     <NavLink to="/">
       <img src={logo} alt='logo' style={{ width: '150px', marginLeft: '50px' }} />
     </NavLink>

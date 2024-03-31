@@ -25,9 +25,8 @@ const SideNav = ({ children, role }) => {
     {
       path: "/Livraisonaaccepter",
       name: "Livraison à accepter",
-      icon: <FcTodoList />      ,
+      icon: <FcFilingCabinet />      ,
     },
-    { path: "/Livraison-accepte", name: "Déposer Au dépôt", icon: <FcFilingCabinet /> }, // Utilisez l'icône appropriée
     {
       path: "/En-cours-de-livraison",
       name: "Rendre En cours de livraison",

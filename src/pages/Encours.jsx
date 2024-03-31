@@ -2,8 +2,11 @@ import React from 'react';
 import Tablev from "../Components/Tables/Tables";
 import NavBar from "../Components/Barnav/NavBar";
 import SideNav from "../Components/SideNav/SideNav";
+import mockUsers from '../assets/data/data';
 
 const Encours = () => {
+  const livraisonsEnCours = mockUsers.filter(livraison => livraison.StatutDeLivraison === "Au dépôt");
+
     return (
         <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <NavBar />
@@ -43,7 +46,7 @@ const Encours = () => {
               </h2>
             </div>
             {/* Tableau affiché ici */}
-            <Tablev />
+            <Tablev statusFilter="Au dépôt"/>
           </div>
         </div>
       </div>

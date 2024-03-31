@@ -6,7 +6,6 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import NvExpedition from "./pages/NvExpedition";
 import LivraisonAaccepter from "./pages/LivraisonAaccepter";
-import LivraisonAccepter from "./pages/LivraisonAccepter";
 import Encours from "./pages/Encours";
 import Livré from "./pages/Livré";
 import NewAdmin from "./pages/NewAdmin";
@@ -35,8 +34,6 @@ function App() {
           <Route path="/Nv-expedition" element={<NvExpedition></NvExpedition>}></Route>
           
           <Route path="/Livraisonaaccepter" element={<LivraisonAaccepter></LivraisonAaccepter>}></Route>
-
-          <Route path="/Livraison-accepte" element={<LivraisonAccepter></LivraisonAccepter>}></Route>
 
           <Route path="/En-cours-de-livraison" element={<Encours></Encours>}></Route>
 

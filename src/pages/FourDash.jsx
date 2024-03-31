@@ -1,6 +1,6 @@
 import React from "react";
 import Tablev from "../Components/Tables/Tables";
-import CardNbrLiv from "../Components/CardNbrLiv/CardNbrLiv";
+import CardFour from "../Components/CardFour/CardFour";
 import NavBar from "../Components/Barnav/NavBar";
 import SideNav from "../Components/SideNav/SideNav";
 
@@ -39,7 +39,7 @@ const FourDash = () => {
             }}
           >
             {/* Cartes affichées ici */}
-            <CardNbrLiv />
+            <CardFour />
             {/* Espacement entre les cartes et le tableau */}
             <div style={{ margin: "20px 0" }}>
               <h2 style={{ fontSize: "20px", color: "#2e2c2c" }}>
