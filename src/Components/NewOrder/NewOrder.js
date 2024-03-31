@@ -1,11 +1,20 @@
-import React from 'react';
-import { Form, ButtonToolbar, Schema, FlexboxGrid, Input, Button } from 'rsuite';
-import OrderValidation from '../OrderValidation/OrderValidation';
+import React, { useState } from "react";
+import {
+  Form,
+  ButtonToolbar,
+  Schema,
+  FlexboxGrid,
+  Checkbox,
+  CheckboxGroup,
+  Button,
+} from "rsuite";
+import OrderValidation from "../OrderValidation/OrderValidation";
 
 const { StringType } = Schema.Types;
 
 const model = Schema.Model({
-  name: StringType().isRequired('Ce champ est obligatoire.')});
+  name: StringType().isRequired("Ce champ est obligatoire."),
+});
 
 const NewOrder = () => {
   const [open, setOpen] = React.useState(false);
@@ -14,13 +23,18 @@ const NewOrder = () => {
 
   const formRef = React.useRef();
   const [formValue, setFormValue] = React.useState({
-    name: '',
-    tel: '',
-    adresse: '',
-    ville: '',
-    produit: '',
-    prix:''
+    name: "",
+    tel: "",
+    adresse: "",
+    ville: "",
+    produit: "",
+    prix: "",
   });
+
+  const [checkedItem, setCheckedItem] = useState(null);
+
+  const handleCheckboxChange = (value) => {
+    setCheckedItem(value[0]);}
 
   return (
     <>
@@ -91,12 +105,27 @@ const NewOrder = () => {
                 <Form.ControlLabel>Prix</Form.ControlLabel>
                 <Form.Control name="prix" />
               </Form.Group>
+              <Form.Group>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Form.ControlLabel>Permettre au client d'ouvrir le colis ?</Form.ControlLabel>
+          <CheckboxGroup inline name="checkbox-group" value={[checkedItem]} onChange={handleCheckboxChange}>
+            <Checkbox value="oui">Oui</Checkbox>
+            <Checkbox value="non">Non</Checkbox>
+          </CheckboxGroup>
+        </div>
+      </Form.Group>
               <ButtonToolbar className="button-toolbar">
-                <Button onClick={handleOpen} appearance="primary">Valider</Button>
+                <Button onClick={handleOpen} appearance="primary">
+                  Valider
+                </Button>
               </ButtonToolbar>
             </Form>
           </div>
-          <OrderValidation open={open} handleClose={handleClose} formValues={formValue} />
+          <OrderValidation
+            open={open}
+            handleClose={handleClose}
+            formValues={formValue}
+          />
         </FlexboxGrid.Item>
       </FlexboxGrid>
     </>

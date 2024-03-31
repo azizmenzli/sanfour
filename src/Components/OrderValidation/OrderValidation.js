@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, ButtonToolbar } from 'rsuite';
+import { Modal, Button, } from 'rsuite';
 
 const OrderValidation = ({ open, handleClose, formValues }) => {
   return (
