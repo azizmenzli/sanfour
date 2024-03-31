@@ -39,7 +39,7 @@ const NewSeller = () => {
           >
             <div style={{ margin: "20px 0" }}>
               <h2 style={{ fontSize: "25px", color: "#2e2c2c" }}>
-                Ajouter un administrateur
+                Ajouter un fournisseur
               </h2>
             </div>
             <Form>
