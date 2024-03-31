@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, ButtonToolbar, Schema, FlexboxGrid, Input, InputNumber } from 'rsuite';
+import { Form, ButtonToolbar, Schema, FlexboxGrid, Input, Button } from 'rsuite';
 import OrderValidation from '../OrderValidation/OrderValidation';
 
 const { StringType } = Schema.Types;
@@ -8,6 +8,10 @@ const model = Schema.Model({
   name: StringType().isRequired('Ce champ est obligatoire.')});
 
 const NewOrder = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const formRef = React.useRef();
   const [formValue, setFormValue] = React.useState({
     name: '',
@@ -88,10 +92,11 @@ const NewOrder = () => {
                 <Form.Control name="prix" />
               </Form.Group>
               <ButtonToolbar className="button-toolbar">
-                <OrderValidation />
+                <Button onClick={handleOpen} appearance="primary">Valider</Button>
               </ButtonToolbar>
             </Form>
           </div>
+          <OrderValidation open={open} handleClose={handleClose} formValues={formValue} />
         </FlexboxGrid.Item>
       </FlexboxGrid>
     </>

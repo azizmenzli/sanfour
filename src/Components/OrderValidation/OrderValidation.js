@@ -1,14 +1,11 @@
-import { Modal, Button, ButtonToolbar, Placeholder } from 'rsuite';
 import React from 'react';
+import { Modal, Button, ButtonToolbar } from 'rsuite';
 
-const OrderValidation = () => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const OrderValidation = ({ open, handleClose, formValues }) => {
   return (
     <>
       <ButtonToolbar>
-        <Button onClick={handleOpen} appearance="primary"> Valider</Button>
+        <Button onClick={handleClose} appearance="primary">Fermer</Button>
       </ButtonToolbar>
 
       <Modal open={open} onClose={handleClose}>
@@ -16,14 +13,20 @@ const OrderValidation = () => {
           <Modal.Title>Information d'expédition</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Placeholder.Paragraph />
+          {/* Afficher les valeurs du formulaire ici */}
+          <p>Nom du destinataire: {formValues.name}</p>
+          <p>Tel du destinataire: {formValues.tel}</p>
+          <p>Adresse de livraison: {formValues.adresse}</p>
+          <p>Ville: {formValues.ville}</p>
+          <p>Produit: {formValues.produit}</p>
+          <p>Prix: {formValues.prix}€</p>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleClose} appearance="primary">
             Ok
           </Button>
           <Button onClick={handleClose} appearance="subtle">
-            Cancel
+            Annuler
           </Button>
         </Modal.Footer>
       </Modal>
