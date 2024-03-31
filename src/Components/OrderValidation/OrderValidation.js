@@ -4,10 +4,6 @@ import { Modal, Button, ButtonToolbar } from 'rsuite';
 const OrderValidation = ({ open, handleClose, formValues }) => {
   return (
     <>
-      <ButtonToolbar>
-        <Button onClick={handleClose} appearance="primary">Fermer</Button>
-      </ButtonToolbar>
-
       <Modal open={open} onClose={handleClose}>
         <Modal.Header>
           <Modal.Title>Information d'expédition</Modal.Title>
