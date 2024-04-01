@@ -1,13 +1,14 @@
 import React from 'react';
 import { Panel, Row, Col } from 'rsuite';
 import mockUsers from '../../assets/data/data'; // Assurez-vous que ce chemin d'importation est correct
-
+import { useSelector } from 'react-redux';
 const CardNbrLiv = () => {
+  const commands = useSelector((state) => state.command.commands);
   // Calcul des nombres pour chaque statut
-  const livraisonsAaccepter = mockUsers.filter(user => user.StatutDeLivraison === 'En attente').length;
-  const colisAuDepot = mockUsers.filter(user => user.StatutDeLivraison === 'Au dépôt').length;
-  const livraisonsEffectuees = mockUsers.filter(user => user.StatutDeLivraison === 'Livré').length;
-  const livraisonsAnnulees = mockUsers.filter(user => user.StatutDeLivraison === 'Annulé').length; // Ajouté si vous avez des données pour ce statut
+  const livraisonsAaccepter = commands.filter(command => command.status === 'EnAttente').length;
+  const colisAuDepot = commands.filter(command => command.status === 'AuDepot').length; // Ensure the status matches your enum values exactly
+  const livraisonsEffectuees = commands.filter(command => command.status === 'Livre').length;
+  const livraisonsAnnulees = commands.filter(command => command.status === 'Annuler').length;
 
   return (
     <Row style={{display:'flex',margin:'10px'}}>

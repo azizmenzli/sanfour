@@ -52,7 +52,7 @@ class ApiService {
     }
     async createCommand(commandData) {
         try {
-          const response = await axiosInstance.post("/commands", commandData);
+          const response = await axiosInstance.post("/commands/", commandData);
           return response.data;
         } catch (error) {
           throw error;
@@ -79,6 +79,15 @@ class ApiService {
       async updateCommandStatus(commandId, status) {
         try {
           const response = await axiosInstance.put(`/commands/${commandId}/status`, { status });
+          return response.data;
+        } catch (error) {
+          throw error;
+        }
+      }
+      async getAllCommands() {
+        try {
+          const response = await axiosInstance.get('/commands');
+          console.log(response,'from the api');
           return response.data;
         } catch (error) {
           throw error;

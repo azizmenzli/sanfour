@@ -6,13 +6,11 @@ import {
   ButtonToolbar,
   Schema,
   FlexboxGrid,
-  Checkbox,
-  CheckboxGroup,
   Button,
   InputNumber
 } from "rsuite";
 import OrderValidation from "../OrderValidation/OrderValidation";
-
+import ApiService from '../../Services/Api/ApiService';
 const { StringType } = Schema.Types;
 
 const model = Schema.Model({
@@ -48,6 +46,7 @@ const NewOrder = () => {
     status: 'EnAttente', // Assuming you have a default status
     totalPrice: 0,
   });
+  console.log(formData);
   useEffect(() => {
     setFormData((formData) => ({
       ...formData,
@@ -61,6 +60,7 @@ const NewOrder = () => {
   const handleCheckboxChange = (value) => {
     setCheckedItem(value[0]);}
     const handleChange = (e) => {
+      console.log(e.target);
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
     };
@@ -72,6 +72,7 @@ const NewOrder = () => {
   
       try {
         // Replace '/new-order' with your endpoint for creating a new order
+       
         await ApiService.createCommand(formData);
         alert('Order created successfully!'); // Replace with more sophisticated feedback
         // Optionally reset form or navigate to another page
@@ -85,7 +86,6 @@ const NewOrder = () => {
           adresseClient: '',
           telephoneClient: '',
           villeClient: '',
-          status: 'EnAttente',
           totalPrice: 0,
         });
         navigate('/dashboard'); // Navigate to dashboard or success page
@@ -96,6 +96,19 @@ const NewOrder = () => {
     };
     const handleInputChange = (value, name) => {
       setFormData({ ...formData, [name]: value });
+    };
+    const handleFormChange = (value, name) => {
+      const isNumericField = ['prixTTC', 'numberOfParcels','totalPrice'].includes(name);
+  console.log(isNumericField,"the numeric");
+  // Convert value to a float for numeric fields, ensuring dot is used as the decimal separator
+  // and handling locale-specific formatting (e.g., comma as decimal separator)
+  const normalizedValue = isNumericField ? parseFloat(value.toString().replace(',', '.')) : value;
+  
+  // Update state with the normalized value
+  setFormData(prevFormData => ({
+    ...prevFormData,
+    [name]: normalizedValue
+  }));
     };
   return (
     <>
@@ -139,43 +152,50 @@ const NewOrder = () => {
               model={model}
               ref={formRef}
               formValue={formData}
-              onChange={setFormValue}
+              // onChange={handleChange}
               onSubmit={handleSubmit}
               fluid
             >
-              <Form.Group>
+              {/* <Form.Group>
                 <Form.ControlLabel>Nom du destinataire</Form.ControlLabel>
                 <Form.Control name="name" />
-              </Form.Group>
+              </Form.Group> */}
               <Form.Group>
                 <Form.ControlLabel>N° Tel du destinataire</Form.ControlLabel>
-                <Form.Control name="tel" />
+                <Form.Control 
+    name="telephoneClient" 
+    onChange={(value) => handleFormChange(value, 'telephoneClient')} 
+  />
               </Form.Group>
               <Form.Group>
                 <Form.ControlLabel>Adresse de livraison</Form.ControlLabel>
-                <Form.Control name="adresseClient" />
+                <Form.Control name="adresseClient" onChange={(value) => handleFormChange(value, 'adresseClient')}  />
               </Form.Group>
               <Form.Group>
                 <Form.ControlLabel>Ville</Form.ControlLabel>
-                <Form.Control name="villeClient" />
+                <Form.Control name="villeClient" onChange={(value) => handleFormChange(value, 'villeClient')} />
               </Form.Group>
               <Form.Group>
                 <Form.ControlLabel>Produit</Form.ControlLabel>
-                <Form.Control name="produit" />
+                <Form.Control name="nomArticle" onChange={(value) => handleFormChange(value, 'nomArticle')} />
               </Form.Group>
               <Form.Group>
-                <Form.ControlLabel>Prix</Form.ControlLabel>
-                <Form.Control name="prix" />
+                <Form.ControlLabel>Prix de produit</Form.ControlLabel>
+                <Form.Control name="prixTTC"onChange={(value) => handleFormChange(value, 'prixTTC')} />
+              </Form.Group>
+              <Form.Group>
+                <Form.ControlLabel>Prix TTC </Form.ControlLabel>
+                <Form.Control name="totalPrice"onChange={(value) => handleFormChange(value, 'totalPrice')} />
               </Form.Group>
               <Form.Group>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <label htmlFor="numberOfParcels">Number of Parcels</label>
+        <label htmlFor="numberOfParcels">Numero de colis</label>
         
           <InputNumber
           id="numberOfParcels"
           min={1}
           value={formData.numberOfParcels}
-          onChange={(value) => handleInputChange(value, 'numberOfParcels')}
+          onChange={(value) => handleFormChange(value, 'numberOfParcels')}
         />
         </div>
       </Form.Group>

@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Table, TagPicker } from 'rsuite';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import mockUsers from '../../assets/data/data';
-
+import { fetchAllCommands, setStatusFilter } from '../../features/slices/commandSlice';
 const { Column, HeaderCell, Cell } = Table;
 
 const Tablev = ({ statusFilter }) => {
   const navigate = useNavigate();
-  
+  const dispatch = useDispatch();
+
+
+  const { id,commands, status,nomArticle, error} = useSelector((state) => state.command);
+  useEffect(() => {
+    dispatch(fetchAllCommands());
+  }, [dispatch]);
+  console.log(commands);
   const defaultColumns = [
     { key: 'id', label: 'Id', fixed: true, width: 70 },
-    { key: 'Produit', label: 'Produit', width: 110 },
-    { key: 'Prix', label: 'Prix', width: 110 },
-    { key: 'Client', label: 'Client', width: 110 },
-    { key: 'StatutDeLivraison', label: 'Statut de livraison', width: 130 },
+    { key: 'nomArticle', label: 'Produit', width: 110 },
+    { key: 'prixTTC', label: 'Prix', width: 110 },
+    { key: 'adresseClient', label: 'Client', width: 110 },
+    { key: 'status', label: 'Statut de livraison', width: 130 },
     { key: 'actions', label: 'Actions', width: 170 }
   ];
 
-  const [columnKeys, setColumnKeys] = useState(defaultColumns.map(column => column.key));
+  const [columnKeys, setColumnKeys] = useState(defaultColumns.map(column => column.key).filter(key => !defaultColumns.find(col => col.key === key).hidden));
 
   const CompactCell = ({ rowData, dataKey, ...props }) => <Cell {...props} style={{ padding: 4 }} />;
   const CompactHeaderCell = ({ rowData, dataKey, ...props }) => <HeaderCell {...props} style={{ padding: 4 }} />;
@@ -29,9 +37,9 @@ const Tablev = ({ statusFilter }) => {
   );
 
   // Filtrer les données basées sur le statut passé en prop
-  const filteredData = mockUsers.filter(livraison => 
-    statusFilter ? livraison.StatutDeLivraison === statusFilter : true
-  );
+  const filteredData = commands.filter(command =>
+    statusFilter ? command.status === statusFilter : true
+  )
 
   const IdCell = ({ rowData, dataKey, ...props }) => (
     <Cell {...props} style={{ padding: 4, cursor: 'pointer', color: 'blue', textDecoration: 'underline' }} onClick={() => navigate(`/BonDeLivraison?id=${rowData[dataKey]}`)}>
