@@ -10,21 +10,32 @@ import { Button } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import { login } from "../../features/slices/authSlice";
 import { useDispatch } from "react-redux";
-
+import ApiService from "../../Services/Api/ApiService";
+import { loginSuccess } from "../../features/slices/authSlice";
 const Login = () => {
   const intitalState = {
-    name: "",
+    email: "",
     password: "",
-    image: "",
+    
   };
   const [values, setValues] = useState(intitalState);
   const onChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
-
+console.log(values);
   const dispatch = useDispatch();
-
+  const handleSubmit = async () => {
+    try {
+      const response = await ApiService.login(values.email, values.password);
+      // Assuming response includes the token
+      dispatch(loginSuccess(response)); // Dispatch loginSuccess with the response
+    } catch (error) {
+      console.error("Login failed:", error);
+      // Handle login error (e.g., invalid credentials, network error)
+      // You might want to set error state here and show error messages in the UI
+    }
+  };
   return (
     <div className="grid grid-cols-1 items-center justify-items-center h-screen">
       <Card className="w-96">
@@ -39,11 +50,11 @@ const Login = () => {
         </CardHeader>
         <CardBody className="flex flex-col gap-4">
           <Input
-            label="Name"
+            label="Email"
             size="lg"
             type="text"
-            name="name"
-            value={values.name}
+            name="email"  
+            value={values.email}
             onChange={onChange}
           />
           <Input
@@ -54,27 +65,17 @@ const Login = () => {
             value={values.password}
             onChange={onChange}
           />
-          <Input
-            label="Image URL address"
-            size="lg"
-            type="text"
-            name="image"
-            value={values.image}
-            onChange={onChange}
-          />
-          <div className="-ml-2.5"></div>
+          
         </CardBody>
         <CardFooter className="pt-0">
           <Button
             variant="gradient"
             fullWidth
-            onClick={() => dispatch(login(values))}
+            onClick={handleSubmit}
           >
             Sign In
           </Button>
-          <Typography variant="small" className="mt-6 flex justify-center">
-            Image is Optional
-          </Typography>
+         
         </CardFooter>
       </Card>
     </div>

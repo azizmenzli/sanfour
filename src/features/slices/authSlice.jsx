@@ -1,41 +1,50 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import { setAuthInfo, clearAuthInfo, getAuthInfo } from '../../utils/storage';
+import { jwtDecode } from 'jwt-decode';
 
-export const authSlice = createSlice({
-  name: "auth",
-  initialState: {
-    user: JSON.parse(sessionStorage.getItem("authUser")) || {
-      name: "",
-      password: "",
-      authUser: false,
-    },
-  },
+// Define the initial state based on the current authentication information
+const initialState = getAuthInfo().token
+  ? { ...getAuthInfo(), isAuthenticated: true }
+  : {
+      id: null,
+      email: null,
+      role: null,
+      token: null,
+      isAuthenticated: false,
+    };
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
   reducers: {
-    login(state, action) {
-      const userId = action.payload;
-      const userValidation = /^[A-Za-z]{4,10}$/i.test(userId.name);
-      const passwordValidation =
-        /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,10}$/i.test(
-          userId.password
-        );
-      state.user = userId;
-      if (!userValidation || !passwordValidation) {
-        state.user.authUser = false;
-      } else {
-        state.user.authUser = true;
-        const saveState = JSON.stringify(userId);
-        sessionStorage.setItem("authUser", saveState);
-      }
+    // Handle login success by decoding the JWT token and updating the state
+    loginSuccess(state, action) {
+        const { token } = action.payload;
+        const decoded = jwtDecode(token); // Decode the token to get user information
+        // Adjust these fields based on your token's payload structure
+        const { userId, email, role } = decoded;
+        
+        // Store authentication information in localStorage  
+        setAuthInfo({ token, userId, email, role });
+        // Update state with user information and authentication status
+        state.token = token;
+        state.id = userId;
+        state.email = email;
+        state.role = role;
+        state.isAuthenticated = true;
     },
+    // Handle logout by clearing authentication information from localStorage and state
     logout(state) {
-      state.user = {
-        name: "",
-        password: "",
-        authUser: false,
-      };
-      sessionStorage.clear();
+      clearAuthInfo();
+      state.id = null;
+      state.email = null;
+      state.role = null;
+      state.token = null;
+      state.isAuthenticated = false;
     },
+    // Additional reducers can be added here as needed
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { loginSuccess, logout } = authSlice.actions;
 export default authSlice.reducer;

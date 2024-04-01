@@ -13,19 +13,20 @@ import NewSeller from "./pages/NewSeller";
 import Runsheet from "./pages/Runsheet";
 import BonDeLivraison from "./pages/BonDeLivraison";
 import FourDash from "./pages/FourDash";
-/*import Login from "./Components/Login/Login";*/
-/*import { useSelector } from "react-redux";*/
+import Login from "./Components/Login/Login";
+import { useSelector } from "react-redux";
 
 function App() {
   /*const user = useSelector((state) => state.user.user);*/
   /*const { authUser } = user;*/
-
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  console.log(isAuthenticated,'test');
   return (
     <div className="App">
       <BrowserRouter style={{ display: "flex" }}>
         <Routes>
 
-          <Route path="/"element={/*authUser ?*/ <Home></Home> /*: <Login></Login>*/}></Route>
+        <Route path="/" element={isAuthenticated ? <Home /> : <Login />}></Route>
 
           <Route path="/Dashboard" element={<Dashboard></Dashboard>}></Route>
 
