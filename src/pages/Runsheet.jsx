@@ -44,20 +44,12 @@ const Runsheet = () => {
             </div>
             <Form>
     <Form.Group controlId="name">
-      <Form.ControlLabel>Nom</Form.ControlLabel>
+      <Form.ControlLabel>Id colis</Form.ControlLabel>
       <Form.Control name="name" />
-    </Form.Group>
-    <Form.Group controlId="email">
-      <Form.ControlLabel>Email</Form.ControlLabel>
-      <Form.Control name="email" type="email" />
-    </Form.Group>
-    <Form.Group controlId="password">
-      <Form.ControlLabel>Mot de passe</Form.ControlLabel>
-      <Form.Control name="password" type="password" autoComplete="off" />
     </Form.Group>
     <Form.Group>
       <ButtonToolbar>
-        <Button appearance="primary">Submit</Button>
+        <Button appearance="ghost">Submit</Button>
         <Button appearance="default">Cancel</Button>
       </ButtonToolbar>
     </Form.Group>

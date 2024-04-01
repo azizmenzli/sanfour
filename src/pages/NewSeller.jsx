@@ -69,7 +69,7 @@ const NewSeller = () => {
     </Form.Group>
     <Form.Group>
       <ButtonToolbar>
-        <Button appearance="primary">Submit</Button>
+        <Button appearance="ghost">Submit</Button>
         <Button appearance="default">Cancel</Button>
       </ButtonToolbar>
     </Form.Group>
