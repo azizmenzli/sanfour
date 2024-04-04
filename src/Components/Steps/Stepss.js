@@ -37,10 +37,10 @@ const Stepss = () => (
   <>
     <style>{pulseAnimation}</style>
     <Steps current={0} vertical style={stepStyles.stepsContainer}>
-      <Steps.Item title="En attente" description="Ville fournisseur" />
-      <Steps.Item title="Au dépôt" description="Borj Cédria" />
-      <Steps.Item title="En cours de livraison" description="Vers Ville client" />
-      <Steps.Item title="Livré" description="Ville client" />
+      <Steps.Item title="En attente" description="Ville fournisseur - date & heure" />
+      <Steps.Item title="Au dépôt" description="Borj Cédria - date & heure" />
+      <Steps.Item title="En cours de livraison" description="Vers Ville client - date & heure" />
+      <Steps.Item title="Livré" description="Ville client - date & heure" />
     </Steps>
   </>
 );
