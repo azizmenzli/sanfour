@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-import {
-  Input,
-  Modal,
-  Button,
-  Panel,
-  Stack,
-} from "rsuite";
+import { Input, Modal, Button, Panel, Stack } from "rsuite";
 import { FcSearch } from "react-icons/fc";
 import Bg from "../../assets/images/bg.png";
-import Steps from "../Steps/Steps";
+import Stepss from "../Steps/Stepss";
 import mockUsers from "../../assets/data/data"; // Assurez-vous que le chemin est correct
 
 const Drawersuivi = () => {
@@ -32,71 +26,86 @@ const Drawersuivi = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        width: "100%",
-        backgroundColor: '#f0f0f0'
-      }}
-    >
-      <Panel
-        className="panel-bg-custom"
-        bordered
-        header={
-          <Stack justifyContent="space-between">
-            <span style={{color:'red', fontSize: '24px'}}>Suivi de colis</span>
-          </Stack>
+    <>
+      <style>{`
+        .panel-bg-custom {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background-color: #f0f0f0; /* Couleur de fond plus douce */
+          border-radius: 8px; /* Bords arrondis */
+          box-shadow: 0px 0px 15px rgba(0,0,0,0.1); /* Ombre douce */
         }
+        .search-input {
+          width: 450px;
+          height: 50px;
+          border-radius: 25px 0 25px 25px; /* Input arrondi */
+          border: 1px solid #cccccc; /* Bordure plus subtile */
+          padding-left: 20px; /* Padding à gauche pour le texte */
+        }
+        .search-button {
+          width: 60px;
+          height: 50px;
+          margin-left: -5px; /* Aligner le bouton avec l'input */
+          border-radius: 25px 25px 25px 0; /* Arrondi du bouton sur les côtés droit */
+          background-color: #58a0e1; /* Couleur du bouton */
+          border: none; /* Pas de bordure */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .search-icon {
+          width: 30px;
+          height: 30px;
+        }
+      `}</style>
+      <div
         style={{
+          display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          width: 600,
-          height: 300,
-          margin: "10px auto",
-          backgroundImage: `url(${Bg})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          border:'solid',
-          borderColor:'white'
+          height: "100vh",
+          width: "100%",
+          backgroundColor: "#f0f0f0",
+          marginTop: "-70px"
         }}
       >
-        <form onSubmit={(e) => e.preventDefault()}>
-          <Stack spacing={10}>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                width: '100%',
-                position: 'absolute',
-                bottom: 25,
-              }}>
+        <Panel
+          className="panel-bg-custom"
+          bordered
+          header={<span style={{ color: "#58a0e1", fontSize: "24px" }}>Suivi de colis</span>}
+          style={{
+            width: 600,
+            height: 300,
+            backgroundImage: `url(${Bg})`,
+            backgroundSize: "cover",
+          }}
+        >
+          <form onSubmit={(e) => e.preventDefault()}>
+            <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
               <Input
-                name="name"
+                className="search-input"
                 placeholder="N° de la commande"
-                style={{ width: 450,  height: 70, border:'solid' }}
                 value={inputId}
-                onChange={(value) => setInputId(value)}
+                onChange={setInputId}
               />
-              <Button onClick={handleSearch} style={{ width: 80, border:'solid 3px', borderColor:'#58a0e1', borderRadius:'10 px' }}>
-                <FcSearch style={{ width: 45,  height: 45}}/>
+              <Button className="search-button" onClick={handleSearch}>
+                <FcSearch className="search-icon" />
               </Button>
             </div>
-          </Stack>
-        </form>
-
-        <Modal open={open} onClose={handleClose}>
-          <Modal.Header>
-            <Modal.Title>Statut de livraison N°: {selectedLivraison?.id}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Steps livraison={selectedLivraison} />
-          </Modal.Body>
-        </Modal>
-      </Panel>
-    </div>
+          </form>
+          <Modal open={open} onClose={handleClose}>
+            <Modal.Header>
+              <Modal.Title>Statut de livraison N°: {selectedLivraison?.id}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Stepss livraison={selectedLivraison} />
+            </Modal.Body>
+          </Modal>
+        </Panel>
+      </div>
+    </>
   );
 };
 

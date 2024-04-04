@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaBars } from "react-icons/fa";
+import { CiBoxList } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
 import { FcComboChart, FcInTransit, FcPlus,FcFilingCabinet, FcOk,FcTodoList  } from "react-icons/fc";
 import { BiBarcodeReader } from "react-icons/bi";
@@ -54,7 +54,7 @@ const SideNav = ({ children, role }) => {
           <h1 style={{ display: isOpen ? "block" : "none", fontSize: "15px" }}>
             Admin
           </h1>
-          <FaBars onClick={toggle} />
+          <CiBoxList onClick={toggle} />
         </div>
         {menuItems.map((item, index) => (
           <NavLink

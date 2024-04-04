@@ -15,13 +15,14 @@ const Login = () => {
   const intitalState = {
     name: "",
     password: "",
-    image: "",
   };
   const [values, setValues] = useState(intitalState);
   const onChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
+
+image
 
   const dispatch = useDispatch();
 
@@ -54,14 +55,7 @@ const Login = () => {
             value={values.password}
             onChange={onChange}
           />
-          <Input
-            label="Image URL address"
-            size="lg"
-            type="text"
-            name="image"
-            value={values.image}
-            onChange={onChange}
-          />
+          
           <div className="-ml-2.5"></div>
         </CardBody>
         <CardFooter className="pt-0">

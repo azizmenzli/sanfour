@@ -1,31 +1,26 @@
 import React from 'react';
-import { Panel, Row, Col } from 'rsuite';
 import mockUsers from '../../assets/data/data'; // Assurez-vous que ce chemin d'importation est correct
 
 const CardFour = () => {
-  // Calcul des nombres pour chaque statut
   const livraisonsAaccepter = mockUsers.filter(user => user.StatutDeLivraison === 'En attente').length;
   const livraisonsEffectuees = mockUsers.filter(user => user.StatutDeLivraison === 'Livré').length;
-  const livraisonsAnnulees = mockUsers.filter(user => user.StatutDeLivraison === 'Annulé').length; // Ajouté si vous avez des données pour ce statut
+  const livraisonsAnnulees = mockUsers.filter(user => user.StatutDeLivraison === 'Annulé').length;
 
   return (
-    <Row style={{display:'flex',margin:'10px'}}>
-      <Col >
-        <Panel bordered header="Livraisons en attente" style={{borderColor:'black'}}>
-          <text style={{fontSize:'40px',color:'#2e2c2c'}}>{livraisonsAaccepter}</text>
-        </Panel>
-      </Col>
-      <Col >
-        <Panel bordered header="Livraisons effectuées" style={{borderColor:'black'}}>
-          <text style={{fontSize:'40px'}}>{livraisonsEffectuees}</text>
-        </Panel>
-      </Col>
-      <Col >
-        <Panel bordered header="Livraisons annulées" style={{borderColor:'black'}}>
-          <text style={{fontSize:'40px'}}>{livraisonsAnnulees}</text>
-        </Panel>
-      </Col>
-    </Row>
+    <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: '20px', marginTop: '20px' }}>
+      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
+        <h3>Livraisons en attente</h3>
+        <span style={{ fontSize: '40px', color: '#007bff' }}>{livraisonsAaccepter}</span>
+      </div>
+      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
+        <h3>Livraisons effectuées</h3>
+        <span style={{ fontSize: '40px', color: '#28a745' }}>{livraisonsEffectuees}</span>
+      </div>
+      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
+        <h3>Livraisons annulées</h3>
+        <span style={{ fontSize: '40px', color: '#dc3545' }}>{livraisonsAnnulees}</span>
+      </div>
+    </div>
   );
 };
 

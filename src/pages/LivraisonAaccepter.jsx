@@ -31,7 +31,7 @@ const livraisonsEnAttente = mockUsers.filter(livraison => livraison.StatutDeLivr
             paddingTop: "20px",
           }}
         ><br/>
-          <h1 style={{ fontSize: "35px", color: "#2e2c2c", margin: "20px 0" }}>
+          <h1 style={{ fontSize: "35px", color: "#2e2c2c", margin: "20px 0", textAlign:'center' }}>
           Déposer les colis au dépôt
 
           </h1>
