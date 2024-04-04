@@ -58,14 +58,13 @@ const NavBar = () => (
     gap: '20px', // Espacement entre les éléments de la nav
   }}>
     <CiPower size="2em" style={{
-      color: "red", // Icone de déconnexion en rouge
+      color: "#e72d2d", // Icone de déconnexion en rouge
       cursor: 'pointer', // Change le curseur en main au survol
     }}/>
     <NavLink to="/deconnexion" className="nav-link" style={{
-      color: "red", // Texte de déconnexion en rouge
+      color: "#e72d2d", // Texte de déconnexion en rouge
       textDecoration: 'none', // Supprime le soulignement par défaut des liens
-      fontWeight: 'bold', // Rend le texte légèrement plus épais
-      fontSize: '1em', // Taille de police standard pour la nav
+      fontSize: '15px', // Taille de police standard pour la nav
       cursor: 'pointer', // Change le curseur en main au survol
     }}>
       Se déconnecter
