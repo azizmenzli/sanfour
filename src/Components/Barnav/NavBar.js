@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Nav } from 'rsuite';
-import { FaRegUserCircle } from "react-icons/fa";
+import { CiPower } from "react-icons/ci";
 import logo from '../../assets/images/logo.png';
 import { NavLink } from "react-router-dom";
 
@@ -29,7 +29,7 @@ const NavBar = () => (
       }
       .nav-right {
         display: flex;
-        align-items: right;
+        margin-left:auto;
         gap: 30px;
       }
       .nav-link {
@@ -41,20 +41,38 @@ const NavBar = () => (
         text-decoration: underline; /* Soulignement au survol */
       }
     `}</style>
-    <Navbar className="custom-navbar">
-      <NavLink to="/">
-        <img src={logo} alt="logo" className="nav-logo" />
-      </NavLink>
-      <div className="nav-right">
-        <NavLink to="/profil" className="nav-link">
-          Profil
-        </NavLink>
-        <NavLink to="/deconnexion" className="nav-link">
-          Se déconnecter
-        </NavLink>
-        <FaRegUserCircle size="2em" />
-      </div>
-    </Navbar>
+    <Navbar className="custom-navbar" style={{
+  boxShadow: '0 2px 4px rgba(0,0,0,.1)', // Ombre légère pour un effet en profondeur
+}}>
+  <NavLink to="/" style={{
+    display: 'flex', // Affiche les éléments de la nav en ligne
+    alignItems: 'center', // Centre les éléments verticalement
+  }}>
+    <img src={logo} alt="logo" className="nav-logo" style={{
+      height: '50px', // Hauteur fixe pour le logo pour une apparence uniforme
+    }} />
+  </NavLink>
+  <div className="nav-right" style={{
+    display: 'flex', // Affiche les éléments de la nav en ligne
+    alignItems: 'center', // Centre les éléments verticalement
+    gap: '20px', // Espacement entre les éléments de la nav
+  }}>
+    <CiPower size="2em" style={{
+      color: "red", // Icone de déconnexion en rouge
+      cursor: 'pointer', // Change le curseur en main au survol
+    }}/>
+    <NavLink to="/deconnexion" className="nav-link" style={{
+      color: "red", // Texte de déconnexion en rouge
+      textDecoration: 'none', // Supprime le soulignement par défaut des liens
+      fontWeight: 'bold', // Rend le texte légèrement plus épais
+      fontSize: '1em', // Taille de police standard pour la nav
+      cursor: 'pointer', // Change le curseur en main au survol
+    }}>
+      Se déconnecter
+    </NavLink>
+  </div>
+</Navbar>
+
   </>
 );
 

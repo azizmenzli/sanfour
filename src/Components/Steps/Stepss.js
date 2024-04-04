@@ -36,7 +36,7 @@ const pulseAnimation = `
 const Stepss = () => (
   <>
     <style>{pulseAnimation}</style>
-    <Steps current={0} vertical style={stepStyles.stepsContainer}>
+    <Steps current={3} vertical style={stepStyles.stepsContainer}>
       <Steps.Item title="En attente" description="Ville fournisseur - date & heure" />
       <Steps.Item title="Au dépôt" description="Borj Cédria - date & heure" />
       <Steps.Item title="En cours de livraison" description="Vers Ville client - date & heure" />
