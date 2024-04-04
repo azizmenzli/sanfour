@@ -35,7 +35,6 @@ const SideNav = ({ children, role }) => {
     { path: "/Livraison-Livré", name: "Marquer Livré", icon: <FcOk /> }, // Utilisez l'icône appropriée
     { path: "/Runsheet", name: "Runsheet", icon: <BiBarcodeReader />
     }, // Utilisez l'icône appropriée
-    { path: "/Ajouter-admin", name: "Ajouter un admin", icon: <FcPlus /> },
     {
       path: "/Ajouter-fournisseur",
       name: "Ajouter un fournisseur",
