@@ -67,7 +67,6 @@ const NavBar = () => (
       fontSize: '15px', // Taille de police standard pour la nav
       cursor: 'pointer', // Change le curseur en main au survol
     }}>
-      Se déconnecter
     </NavLink>
   </div>
 </Navbar>

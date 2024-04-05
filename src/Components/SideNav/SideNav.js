@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { CiBoxList } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
-import { FcComboChart, FcInTransit, FcPlus,FcFilingCabinet, FcOk,FcTodoList  } from "react-icons/fc";
+import { FcComboChart, FcInTransit, FcPlus,FcFilingCabinet, FcOk  } from "react-icons/fc";
 import { BiBarcodeReader } from "react-icons/bi";
 
 const SideNav = ({ children, role }) => {
@@ -50,10 +50,10 @@ const SideNav = ({ children, role }) => {
           className="top_section"
           style={{ justifyContent: isOpen ? "space-between" : "center" }}
         >
-          <h1 style={{ display: isOpen ? "block" : "none", fontSize: "15px" }}>
-            Admin
+          <h1 style={{ display: isOpen ? "block" : "none", fontSize: "20px" }}>
+          Menu principal
           </h1>
-          <CiBoxList onClick={toggle} />
+          <CiBoxList onClick={toggle} style={{fontSize:'25px'}}/>
         </div>
         {menuItems.map((item, index) => (
           <NavLink
