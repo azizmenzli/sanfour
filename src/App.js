@@ -8,7 +8,6 @@ import NvExpedition from "./pages/NvExpedition";
 import LivraisonAaccepter from "./pages/LivraisonAaccepter";
 import Encours from "./pages/Encours";
 import Livré from "./pages/Livré";
-import NewAdmin from "./pages/NewAdmin";
 import NewSeller from "./pages/NewSeller";
 import Runsheet from "./pages/Runsheet";
 import BonDeLivraison from "./pages/BonDeLivraison";
@@ -39,8 +38,6 @@ function App() {
           <Route path="/En-cours-de-livraison" element={<Encours></Encours>}></Route>
 
           <Route path="/Livraison-Livré" element={<Livré></Livré>}></Route>
-
-          <Route path="/Ajouter-admin" element={<NewAdmin></NewAdmin>}></Route>
 
           <Route path="/Ajouter-fournisseur" element={<NewSeller></NewSeller>}></Route>
 

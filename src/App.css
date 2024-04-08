@@ -1,72 +1,107 @@
-*{
-  margin:0;
-  padding:0;
+/* Styles globaux */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   text-decoration: none;
+  transition: all 0.3s ease; /* Transition douce pour tous les éléments */
 }
-.container{
-  display:flex;
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f7f8fa;
+  color: #333;
+  line-height: 1.6;
 }
-main{
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
   width: 100%;
   padding: 20px;
+  flex-grow: 1;
 }
-body {
-  background-color: #f0f0f0; /* Couleur de fond de votre choix */
+
+.ma-page-container {
+  margin-top: 60px;
 }
-.sidebar{
-  background: #000;
+
+/* Sidebar */
+.sidebar {
+  background: #1156be;
   color: #fff;
   height: 100vh;
-  width: 200px;
-  transition: all 0.5s;
+  width: 250px;
+  transition: width 0.5s;
+  position: fixed;
 }
-.top_section{
+
+.top_section {
   display: flex;
-  align-items:center;
-  padding:20px 15px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
 }
-.logo{
-  font-size: 30px;
+
+.logo {
+  font-size: 24px;
+  animation: logoFadeIn 0.5s ease forwards; /* Animation pour le logo */
 }
-.bars{
-  display: flex;
+
+.bars {
   font-size: 25px;
-  margin-left: 50px;
+  cursor: pointer;
 }
-.link{
+
+.link, .active {
   display: flex;
+  align-items: center;
   color: #fff;
-  padding: 10px 15px;
   gap: 15px;
-  transition: all 0.5s;
-}
-.link:hover{
-  background:lightskyblue;
-  color: #000;
-  transition: all 0.5s;
-}
-.active{
-  background: lightskyblue;
-  color: #000;
-}
-.icon, .link_text{
-  font-size: 20px;
 }
 
-.panel-bg-custom::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px; /* Largeur spécifique de l'image de fond */
-  height: 100%; /* Hauteur complète du Panel */
-  background-image: url('./assets/images/bg.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  z-index: -1; /* S'assure que l'image de fond est derrière le contenu du Panel */
+.link:hover, .active {
+  background: #1a73e8;
+  color: #fff;
+  text-decoration: none;
 }
 
+.icon, .link_text {
+  font-size: 18px;
+}
+
+/* Panel avec background customisé */
 .panel-bg-custom {
-  position: relative; /* Nécessaire pour positionner correctement le pseudo-élément */
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  animation: panelSlideUp 0.5s ease-out forwards; /* Animation pour le panneau */
+}
+
+/* Animations */
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes panelSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

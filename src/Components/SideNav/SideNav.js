@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { FaBars } from "react-icons/fa";
+import { CiBoxList } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
-import { FcComboChart, FcInTransit, FcPlus,FcFilingCabinet, FcOk,FcTodoList  } from "react-icons/fc";
+import { FcComboChart, FcInTransit, FcPlus,FcFilingCabinet, FcOk  } from "react-icons/fc";
+import { FcSerialTasks } from "react-icons/fc";
 import { BiBarcodeReader } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
@@ -13,14 +14,17 @@ const SideNav = ({ children }) => {
   let menuItems;
   if (role === "Fournisseur") {
      menuItems = [
-      { path: "/fournisseur-dashboard", name: "FourDash", icon: <FcComboChart /> },
-      { path: "/Nv-expedition", name: "Nv expedition", icon: <FcPlus /> },
-    { path: "/", name: "Suivi de colis", icon: <FcInTransit /> },
+    { path: "/Dashboard", name: "Dashboard", icon: <FcComboChart /> },
+    { path: "/Nv-expedition", name: "Nv expedition", icon: <FcPlus /> },
+    { path: "/", name: "Suivi de colis", icon: <FcSerialTasks /> },
   ]
 } else {
   menuItems =[
     { path: "/Dashboard", name: "Dashboard", icon: <FcComboChart /> },
     { path: "/Nv-expedition", name: "Nv expedition", icon: <FcPlus /> },
+    { path: "/", name: "Suivi de colis", icon: <FcSerialTasks /> },
+    
+    { path: "/fournisseur-dashboard", name: "FourDash", icon: <FcComboChart /> },
     {
       path: "/Livraisonaaccepter",
       name: "Livraison à accepter",
@@ -34,7 +38,6 @@ const SideNav = ({ children }) => {
     { path: "/Livraison-Livré", name: "Marquer Livré", icon: <FcOk /> }, // Utilisez l'icône appropriée
     { path: "/Runsheet", name: "Runsheet", icon: <BiBarcodeReader />
     }, // Utilisez l'icône appropriée
-    { path: "/Ajouter-admin", name: "Ajouter un admin", icon: <FcPlus /> },
     {
       path: "/Ajouter-fournisseur",
       name: "Ajouter un fournisseur",
@@ -50,10 +53,10 @@ const SideNav = ({ children }) => {
           className="top_section"
           style={{ justifyContent: isOpen ? "space-between" : "center" }}
         >
-          <h1 style={{ display: isOpen ? "block" : "none", fontSize: "15px" }}>
-            Admin
+          <h1 style={{ display: isOpen ? "block" : "none", fontSize: "20px" }}>
+          Menu principal
           </h1>
-          <FaBars onClick={toggle} />
+          <CiBoxList onClick={toggle} style={{fontSize:'25px'}}/>
         </div>
         {menuItems.map((item, index) => (
           <NavLink

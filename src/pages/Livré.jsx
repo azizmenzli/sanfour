@@ -30,7 +30,7 @@ const Livré = () => {
             paddingTop: "20px",
           }}
         ><br/>
-          <h1 style={{ fontSize: "35px", color: "#2e2c2c", margin: "20px 0" }}>
+          <h1 style={{ fontSize: "35px", color: "#2e2c2c", margin: "20px 0", textAlign:'center' }}>
             Marquer comme livré
           </h1>
           <div

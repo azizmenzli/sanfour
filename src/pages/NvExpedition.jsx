@@ -5,9 +5,9 @@ import NavBar from '../Components/Barnav/NavBar';
 
 const NvExpedition = () => {
     return (
-        <>
+        <div className="ma-page-container">
         <NavBar/>
-        <SideNav>
+        <SideNav className="ma-page-container">
         <div>
             <br/><br/>
             <h1 style={{fontSize: '35px',color:'#2e2c2c', textAlign:'center'}}>Nouvelle expédition</h1><br/>
@@ -15,7 +15,7 @@ const NvExpedition = () => {
             <NewOrder />
         </div>
         </SideNav>
-        </>
+        </div>
     );
 };
 
