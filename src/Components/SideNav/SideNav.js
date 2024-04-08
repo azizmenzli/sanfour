@@ -3,25 +3,24 @@ import { FaBars } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { FcComboChart, FcInTransit, FcPlus,FcFilingCabinet, FcOk,FcTodoList  } from "react-icons/fc";
 import { BiBarcodeReader } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
-const SideNav = ({ children, role }) => {
+const SideNav = ({ children }) => {
+  const {role}=useSelector((state)=>state.auth)
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
   let menuItems;
   if (role === "Fournisseur") {
      menuItems = [
-    { path: "/Dashboard", name: "Dashboard", icon: <FcComboChart /> },
-    { path: "/Nv-expedition", name: "Nv expedition", icon: <FcPlus /> },
+      { path: "/fournisseur-dashboard", name: "FourDash", icon: <FcComboChart /> },
+      { path: "/Nv-expedition", name: "Nv expedition", icon: <FcPlus /> },
     { path: "/", name: "Suivi de colis", icon: <FcInTransit /> },
   ]
 } else {
   menuItems =[
     { path: "/Dashboard", name: "Dashboard", icon: <FcComboChart /> },
     { path: "/Nv-expedition", name: "Nv expedition", icon: <FcPlus /> },
-    { path: "/", name: "Suivi de colis", icon: <FcInTransit /> },
-    
-    { path: "/fournisseur-dashboard", name: "FourDash", icon: <FcComboChart /> },
     {
       path: "/Livraisonaaccepter",
       name: "Livraison à accepter",

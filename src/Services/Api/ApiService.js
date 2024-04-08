@@ -78,7 +78,7 @@ class ApiService {
       // Method to update the status of a command
       async updateCommandStatus(commandId, status) {
         try {
-          const response = await axiosInstance.put(`/commands/${commandId}/status`, { status });
+          const response = await axiosInstance.patch(`/commands/${commandId}/status`, { status });
           return response.data;
         } catch (error) {
           throw error;
@@ -87,7 +87,7 @@ class ApiService {
       async getAllCommands() {
         try {
           const response = await axiosInstance.get('/commands');
-          console.log(response,'from the api');
+        
           return response.data;
         } catch (error) {
           throw error;

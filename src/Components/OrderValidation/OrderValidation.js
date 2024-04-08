@@ -1,7 +1,18 @@
 import React from 'react';
 import { Modal, Button, } from 'rsuite';
 
-const OrderValidation = ({ open, handleClose, formValues }) => {
+const OrderValidation = ({ open, handleClose, formValues,submitOrder }) => {
+  console.log(formValues);
+  const handleConfirmOrder = async () => {
+    try {
+      await submitOrder(formValues); // Use the submitOrder function passed as prop
+      alert('Order created successfully!');
+      handleClose(); // Close the modal upon success
+    } catch (error) {
+      alert('Failed to create order. Please try again.');
+      console.error(error);
+    }
+  };
   return (
     <>
       <Modal open={open} onClose={handleClose}>
@@ -11,15 +22,15 @@ const OrderValidation = ({ open, handleClose, formValues }) => {
         <Modal.Body>
           {/* Afficher les valeurs du formulaire ici */}
           <p>Nom du destinataire: {formValues.name}</p>
-          <p>Tel du destinataire: {formValues.tel}</p>
-          <p>Adresse de livraison: {formValues.adresse}</p>
-          <p>Ville: {formValues.ville}</p>
-          <p>Produit: {formValues.produit}</p>
-          <p>Prix: {formValues.prix}€</p>
+          <p>Tel du destinataire: {formValues.telephoneClient}</p>
+          <p>Adresse de livraison: {formValues.adresseClient}</p>
+          <p>Ville: {formValues.villeClient}</p>
+          <p>Produit: {formValues.nomArticle}</p>
+          <p>Prix: {formValues.prixTTC}€</p>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleClose} appearance="primary">
-            Ok
+            Confirmer
           </Button>
           <Button onClick={handleClose} appearance="subtle">
             Annuler

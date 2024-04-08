@@ -20,7 +20,7 @@ const model = Schema.Model({
 const NewOrder = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-  const currentUser = useSelector((state) => state.auth.user); 
+  const currentUser = useSelector((state) => state.auth); 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [error, setError] = useState('');
@@ -37,7 +37,7 @@ const NewOrder = () => {
     nomArticle: '',
     prixTTC: 0,
     numberOfParcels: 0,
-    adresseVendeur: currentUser?.adresse || '', // Pre-fill with currentUser info
+    adresseVendeur: currentUser?.adress    || '', // Pre-fill with currentUser info
     telephoneVendeur: currentUser?.telephone || '',
     villeVendeur: currentUser?.ville || '',
     adresseClient: '',
@@ -46,11 +46,11 @@ const NewOrder = () => {
     status: 'EnAttente', // Assuming you have a default status
     totalPrice: 0,
   });
-  console.log(formData);
+  console.log(currentUser);
   useEffect(() => {
     setFormData((formData) => ({
       ...formData,
-      adresseVendeur: currentUser?.adresse || '',
+      adresseVendeur: currentUser?.adress || '',
       telephoneVendeur: currentUser?.telephone || '',
       villeVendeur: currentUser?.ville || '',
     }));
@@ -64,35 +64,14 @@ const NewOrder = () => {
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
     };
-    const handleSubmit = async (e) => {
+    const handleSubmitOrder = async (orderDetails) => {
+      // Your ApiService call logic here
+      await ApiService.createCommand(orderDetails);
+    };
+    const handleSubmit = (e) => {
       e.preventDefault();
-      setError('');
-  
-      // Optional: Add any form validation here
-  
-      try {
-        // Replace '/new-order' with your endpoint for creating a new order
-       
-        await ApiService.createCommand(formData);
-        alert('Order created successfully!'); // Replace with more sophisticated feedback
-        // Optionally reset form or navigate to another page
-        setFormData({
-          nomArticle: '',
-          prixTTC: 0,
-          numberOfParcels: 1,
-          adresseVendeur: '',
-          telephoneVendeur: '',
-          villeVendeur: '',
-          adresseClient: '',
-          telephoneClient: '',
-          villeClient: '',
-          totalPrice: 0,
-        });
-        navigate('/dashboard'); // Navigate to dashboard or success page
-      } catch (error) {
-        setError('Failed to create order. Please try again.'); // Provide user feedback
-        console.error(error);
-      }
+      // Instead of calling the API here, just open the modal for final confirmation
+      handleOpen(); // Now, it just sets the modal to open
     };
     const handleInputChange = (value, name) => {
       setFormData({ ...formData, [name]: value });
@@ -210,6 +189,7 @@ const NewOrder = () => {
             open={open}
             handleClose={handleClose}
             formValues={formData}
+            submitOrder={handleSubmitOrder}
           />
         </FlexboxGrid.Item>
       </FlexboxGrid>

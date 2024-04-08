@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiUrl = 'http://localhost:3001';
-console.log("API URL:", apiUrl);
+
 
 class Interceptor {
   constructor() {

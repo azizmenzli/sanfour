@@ -1,17 +1,25 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import mockUsers from "../assets/data/data"; // Assurez-vous que le chemin est correct
 import Logo from "../assets/images/logo.png";
 import Codebarre from "../assets/images/code-barres.gif";
+import { compareAsc } from "rsuite/esm/utils/dateUtils";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 const BonDeLivraison = () => {
+  const {commands}=useSelector((state)=>state.command)
+  const {user}=useSelector((state)=>state.auth)
+  
+
   let query = useQuery();
   let id = parseInt(query.get("id"), 10); // Convertit l'ID en nombre
-  const livraison = mockUsers.find((livraison) => livraison.id === id);
+  
+  const livraison = commands.find((livraison) => livraison.id === id);
+  
 
   if (!livraison) {
     return <p>Livraison non trouvée.</p>;
@@ -139,7 +147,7 @@ const BonDeLivraison = () => {
           <img src={Logo} alt="Logo" className="header-logo" />
           <div className="header-title">
             <h1>
-              Bon de Livraison <strong>N°{livraison.id}</strong>
+              Bon de Livraison <strong>N°{livraison?.id}</strong>
             </h1>
           </div>
           <div className="codebarres-container">
@@ -157,9 +165,9 @@ const BonDeLivraison = () => {
           <div>
             <h2>Destinataire</h2>
             <p>Nom: {livraison.Client}</p>
-            <p>Adresse de livraison: {livraison.AdresseLivraison}</p>
-            <p>Ville: {livraison.VilleLivraison}</p>
-            <p>Téléphone: {livraison.TelClient}</p>
+            <p>Adresse de livraison: {livraison.adresseClient}</p>
+            <p>Ville: {livraison.villeClient}</p>
+            <p>Téléphone: {livraison.telephoneClient}</p>
           </div>
         </div>
         <section className="articles">
@@ -173,15 +181,15 @@ const BonDeLivraison = () => {
             </thead>
             <tbody>
               <tr>
-                <td>{livraison.Produit}</td>
-                <td>{livraison.Prix}</td>
+                <td>{livraison.nomArticle}</td>
+                <td>{livraison.prixTTC}</td>
               </tr>
               {/* Ajouter d'autres lignes d'articles ici si nécessaire */}
             </tbody>
             <tfoot className="total-row">
               <tr>
                 <th>Total</th>
-                <td>{livraison.Prix}</td>{" "}
+                <td>{livraison.totalPrice}</td>{" "}
                 {/* Assurez-vous de calculer le total si plusieurs articles */}
               </tr>
             </tfoot>

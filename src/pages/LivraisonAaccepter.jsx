@@ -3,10 +3,13 @@ import mockUsers from '../assets/data/data';
 import Tablev from "../Components/Tables/Tables";
 import NavBar from "../Components/Barnav/NavBar";
 import SideNav from "../Components/SideNav/SideNav";
+import { useSelector } from 'react-redux';
 
 const LivraisonAaccepter = () => {
+  const {commands}=useSelector((state)=>state.command)
 // Filtrer les livraisons avec le statut "En attente"
-const livraisonsEnAttente = mockUsers.filter(livraison => livraison.StatutDeLivraison === "En attente");
+console.log(commands);
+const livraisonsEnAttente = commands.filter(livraison => livraison.StatutDeLivraison === " EnAttente");
 
     return (
         <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -48,7 +51,7 @@ const livraisonsEnAttente = mockUsers.filter(livraison => livraison.StatutDeLivr
               </h2>
             </div>
             {/* Tableau affiché ici */}
-            <Tablev statusFilter="En attente"/>
+            <Tablev statusFilter="EnAttente"/>
           </div>
         </div>
       </div>
