@@ -61,6 +61,7 @@ class ApiService {
       async getCommandByBarcode(barcode) {
         try {
           const response = await axiosInstance.get(`/commands/barcode/${barcode}`);
+          console.log(response);
           return response.data;
         } catch (error) {
           throw error;
