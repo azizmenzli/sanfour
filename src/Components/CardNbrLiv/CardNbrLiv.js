@@ -11,28 +11,24 @@ const CardNbrLiv = () => {
   const livraisonsAnnulees = commands.filter(command => command.status === 'Annuler').length;
 
   return (
-    <Row style={{display:'flex',margin:'10px'}}>
-      <Col >
-        <Panel bordered header="Livraisons à accepter" style={{borderColor:'black'}}>
-          <text style={{fontSize:'40px',color:'#2e2c2c'}}>{livraisonsAaccepter}</text>
-        </Panel>
-      </Col>
-      <Col >
-        <Panel bordered header="Colis au dépôt" style={{borderColor:'black'}}>
-          <text style={{fontSize:'40px',color:'green'}}>{colisAuDepot}</text>
-        </Panel>
-      </Col>
-      <Col >
-        <Panel bordered header="Livraisons effectuées" style={{borderColor:'black'}}>
-          <text style={{fontSize:'40px'}}>{livraisonsEffectuees}</text>
-        </Panel>
-      </Col>
-      <Col >
-        <Panel bordered header="Livraisons annulées" style={{borderColor:'black'}}>
-          <text style={{fontSize:'40px'}}>{livraisonsAnnulees}</text>
-        </Panel>
-      </Col>
-    </Row>
+    <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: '20px', marginTop: '20px' }}>
+      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
+        <h3>Livraisons à accepter</h3>
+        <span style={{ fontSize: '40px', color: '#007bff' }}>{livraisonsAaccepter}</span>
+      </div>
+      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
+        <h3>Colis au dépôt</h3>
+        <span style={{ fontSize: '40px', color: '#28a745' }}>{colisAuDepot}</span>
+      </div>
+      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
+        <h3>Livraisons effectuées</h3>
+        <span style={{ fontSize: '40px', color: '#17a2b8' }}>{livraisonsEffectuees}</span>
+      </div>
+      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
+        <h3>Livraisons annulées</h3>
+        <span style={{ fontSize: '40px', color: '#dc3545' }}>{livraisonsAnnulees}</span>
+      </div>
+    </div>
   );
 };
 

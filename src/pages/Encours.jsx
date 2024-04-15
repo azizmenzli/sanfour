@@ -46,7 +46,7 @@ const Encours = () => {
               </h2>
             </div>
             {/* Tableau affiché ici */}
-            <Tablev statusFilter="Au dépôt"/>
+            <Tablev statusFilter="AuDepot"/>
           </div>
         </div>
       </div>

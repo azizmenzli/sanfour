@@ -19,7 +19,7 @@ const BonDeLivraison = () => {
   let id = parseInt(query.get("id"), 10); // Convertit l'ID en nombre
   
   const livraison = commands.find((livraison) => livraison.id === id);
-  
+  console.log(livraison);
 
   if (!livraison) {
     return <p>Livraison non trouvée.</p>;

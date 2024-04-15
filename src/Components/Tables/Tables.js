@@ -47,15 +47,35 @@ console.log(location.pathname);
   };
   const ActionCell = ({ rowData, dataKey, ...props }) => (
     <Cell {...props} style={{ padding: '6px', display: 'flex', justifyContent: 'space-around' }}>
-      <button style={{ marginRight: '10px', border: 'groove', borderColor: 'green',borderRadius:'5px', height: '25px' }} onClick={() => handleStatusChange(rowData.id, 'AuDepot')}>Confirmer</button>
-      <button style={{ border: 'groove', borderColor: 'red',borderRadius:'5px', height: '25px' }} onClick={() => handleStatusChange(rowData.id, 'Annuler')}>Annuler</button>
+      <button style={{  marginRight: '10px',
+      backgroundColor: '#4CAF50', /* Vert */
+      color: 'white',
+      border: 'none',
+      borderRadius: '5px',
+      height: '25px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s' }} 
+      onMouseOver={(e) => e.target.style.backgroundColor = '#45a049'} /* Assombrir au survol */
+    onMouseOut={(e) => e.target.style.backgroundColor = '#4CAF50'}onClick={() => handleStatusChange(rowData.id, 'AuDepot')}>Confirmer</button>
+      <button style={{ backgroundColor: '#f44336', /* Rouge */
+      color: 'white',
+      border: 'none',
+      borderRadius: '5px',
+      height: '25px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s' }}
+      onMouseOver={(e) => e.target.style.backgroundColor = '#da190b'} /* Assombrir au survol */
+    onMouseOut={(e) => e.target.style.backgroundColor = '#f44336'} 
+      onClick={() => handleStatusChange(rowData.id, 'Annuler')}>Annuler</button>
     </Cell>
   );
 
   // Filtrer les données basées sur le statut passé en prop
   const filteredData = commands.filter(command =>
     statusFilter ? command.status === statusFilter : true
+    
   )
+  console.log(statusFilter);
 
   const IdCell = ({ rowData, dataKey, ...props }) => (
     <Cell {...props} style={{ padding: 4, cursor: 'pointer', color: 'blue', textDecoration: 'underline' }} onClick={() => navigate(`/BonDeLivraison?id=${rowData[dataKey]}`)}>
