@@ -70,3 +70,28 @@ body {
 .panel-bg-custom {
   position: relative; /* Nécessaire pour positionner correctement le pseudo-élément */
 }
+.bg-dark {
+  background-color: #001529; /* Same as Ant Design's dark theme color */
+  color: #fff;
+}
+
+.logo img {
+  width: 100%;
+  max-width: 150px;
+  transition: all 0.3s;
+}
+
+.site-layout .ant-layout-header {
+  background: #001529;
+}
+
+.site-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.site-layout .ant-layout-content {
+  flex: 1;
+  overflow: auto;
+}

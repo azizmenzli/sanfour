@@ -1,33 +1,35 @@
 import React from 'react';
-import { Panel, Row, Col } from 'rsuite';
-import mockUsers from '../../assets/data/data'; // Assurez-vous que ce chemin d'importation est correct
 import { useSelector } from 'react-redux';
+import { FaBox, FaCheckCircle, FaTimesCircle, FaTruck } from 'react-icons/fa';
+
 const CardNbrLiv = () => {
   const commands = useSelector((state) => state.command.commands);
-  // Calcul des nombres pour chaque statut
   const livraisonsAaccepter = commands.filter(command => command.status === 'EnAttente').length;
-  const colisAuDepot = commands.filter(command => command.status === 'AuDepot').length; // Ensure the status matches your enum values exactly
+  const colisAuDepot = commands.filter(command => command.status === 'AuDepot').length;
   const livraisonsEffectuees = commands.filter(command => command.status === 'Livre').length;
   const livraisonsAnnulees = commands.filter(command => command.status === 'Annuler').length;
 
+  const cardData = [
+    { title: 'Livraisons à accepter', count: livraisonsAaccepter, color: 'bg-blue-400', icon: <FaBox /> },
+    { title: 'Colis au dépôt', count: colisAuDepot, color: 'bg-green-400', icon: <FaTruck /> },
+    { title: 'Livraisons effectuées', count: livraisonsEffectuees, color: 'bg-teal-400', icon: <FaCheckCircle /> },
+    { title: 'Livraisons annulées', count: livraisonsAnnulees, color: 'bg-red-400', icon: <FaTimesCircle /> },
+  ];
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: '20px', marginTop: '20px' }}>
-      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
-        <h3>Livraisons à accepter</h3>
-        <span style={{ fontSize: '40px', color: '#007bff' }}>{livraisonsAaccepter}</span>
-      </div>
-      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
-        <h3>Colis au dépôt</h3>
-        <span style={{ fontSize: '40px', color: '#28a745' }}>{colisAuDepot}</span>
-      </div>
-      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
-        <h3>Livraisons effectuées</h3>
-        <span style={{ fontSize: '40px', color: '#17a2b8' }}>{livraisonsEffectuees}</span>
-      </div>
-      <div className="card" style={{ textAlign: 'center', backgroundColor: '#f7f7f7', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '200px', borderRadius: '10px', padding: '20px' }}>
-        <h3>Livraisons annulées</h3>
-        <span style={{ fontSize: '40px', color: '#dc3545' }}>{livraisonsAnnulees}</span>
-      </div>
+    <div className="flex flex-wrap justify-center gap-6 mt-6">
+      {cardData.map((card, index) => (
+        <div
+          key={index}
+          className={`relative bg-white shadow-md rounded-lg p-6 w-64 text-center transform transition-transform hover:scale-105 hover:shadow-lg ${card.color} text-white`}
+        >
+          <div className="absolute top-4 right-4 text-2xl">
+            {card.icon}
+          </div>
+          <h3 className="text-lg font-medium mb-2">{card.title}</h3>
+          <span className="text-4xl font-bold">{card.count}</span>
+        </div>
+      ))}
     </div>
   );
 };

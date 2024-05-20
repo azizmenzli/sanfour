@@ -5,7 +5,7 @@ import NavBar from '../Components/Barnav/NavBar';
 const Home = () => {
     return (
         <div>
-            <NavBar />
+            {/* <NavBar /> */}
             <Drawersuivi/>
         </div>
     );

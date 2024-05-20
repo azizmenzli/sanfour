@@ -1,33 +1,54 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import mockUsers from "../assets/data/data"; // Assurez-vous que le chemin est correct
+import bwipjs from "bwip-js";
 import Logo from "../assets/images/logo.png";
-import Codebarre from "../assets/images/code-barres.gif";
-import { compareAsc } from "rsuite/esm/utils/dateUtils";
+import { Divider } from "antd";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 const BonDeLivraison = () => {
-  const {commands}=useSelector((state)=>state.command)
-  const {user}=useSelector((state)=>state.auth)
+  const { commands } = useSelector((state) => state.command);
   
-
   let query = useQuery();
-  let id = parseInt(query.get("id"), 10); // Convertit l'ID en nombre
+  let id = parseInt(query.get("id"), 10);
   
   const livraison = commands.find((livraison) => livraison.id === id);
-  console.log(livraison);
+  const barcodeCanvasRefs = useRef([]);
+
+  useEffect(() => {
+    if (livraison && barcodeCanvasRefs.current.length > 0) {
+      livraison.parcels.forEach((parcel, index) => {
+        try {
+          bwipjs.toCanvas(barcodeCanvasRefs.current[index], {
+            bcid: 'code128',
+            text: parcel.barcode,
+            scale: 3,
+            height: 10,
+            includetext: false  ,
+            textxalign: 'center',
+          });
+        } catch (error) {
+          console.error('Barcode Error:', error);
+        }
+      });
+    }
+  }, [livraison]);
 
   if (!livraison) {
     return <p>Livraison non trouvée.</p>;
   }
-
+console.log(livraison);
   const handlePrint = () => {
     window.print();
   };
+
+  // Calculate tax and total price
+  const montantHT = livraison.prixTTC;
+  const tva = montantHT * 0.19;
+  const prixTTC = montantHT + tva+7;
 
   return (
     <>
@@ -46,29 +67,44 @@ const BonDeLivraison = () => {
           justify-content: space-between;
           align-items: center;
           flex-wrap: wrap;
-          margin-bottom: 20px;
+          
+        }
+        .header-logo-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          flex: 1;
         }
         .header-logo {
-          width: 120px;
-          flex: 1;
+          width: 350px;
+        }
+        .mf-number {
+          margin-top: 5px;
+          padding: 2px;
         }
         .header-title {
           text-align: right;
           flex-grow: 2;
         }
+        .header-title h1 {
+          padding: 10px;
+          display: inline-block;
+          border: 2px solid;
+        }
         .codebarres-container {
-          width: 100%; /* Prend toute la largeur */
+          width: 100%;
           display: flex;
-          justify-content: center; /* Centre le code barres */
-          margin: 20px 0; /* Ajoute un peu d'espace autour du code barres */
+          justify-content: center;
+          
         }
         .codebarres {
-          width: 120px; /* Largeur du code barres */
+          width: 180px;
         }
         .info {
           display: flex;
           justify-content: space-between;
-          margin-bottom: 20px;
+          
+          border: 2px solid;
         }
         .info > div {
           width: 48%;
@@ -76,43 +112,40 @@ const BonDeLivraison = () => {
         .articles {
           margin-bottom: 20px;
         }
-      
         .articles h2 {
           text-align: center;
           color: #333;
           margin-bottom: 15px;
         }
-      
         .articles table {
           width: 100%;
           border-collapse: collapse;
           margin-top: 20px;
-          box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Ombre douce pour le tableau */
+          box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-      
         .articles th, .articles td {
           text-align: left;
           padding: 12px 15px;
           border-bottom: 1px solid #ddd;
         }
-      
         .articles th {
           background-color: #007bff;
           color: white;
           font-weight: bold;
         }
-      
-        /* Style pour la ligne TOTAL */
-        .articles .total-row th {
+        .articles .total-row th, .articles .total-row td {
           text-align: center;
           color: black;
-          background-color: #f8f9fa; /* Couleur légère pour la ligne TOTAL */
+          background-color: #f8f9fa;
           border-top: 3px solid #D8D2D0;
-        }
-      
-        .articles .total-row td {
           font-weight: bold;
-          border-top: 3px solid #D8D2D0;
+        }
+        .barcodes-section {
+          margin-top: 40px;
+        }
+        .barcode-item {
+          margin-bottom: 20px;
+          text-align: center;
         }
         .print-button {
           display: block;
@@ -144,14 +177,16 @@ const BonDeLivraison = () => {
       `}</style>
       <div className="bon-de-livraison">
         <header className="header">
-          <img src={Logo} alt="Logo" className="header-logo" />
+          <div className="header-logo-container">
+            <img src={Logo} alt="Logo" className="header-logo" />
+            <p className="mf-number">MF: 1868476/M/A/M/000</p>
+          </div>
           <div className="header-title">
-            <h1>
-              Bon de Livraison <strong>N°{livraison?.id}</strong>
-            </h1>
+            <h1>Bon de Livraison <strong>N°{livraison?.id}</strong></h1>
+            <p>Résidence Farah Num61 Borj Cedria</p>
           </div>
           <div className="codebarres-container">
-          <img src={Codebarre} alt="Code Barres" className="codebarres" />
+            <canvas ref={el => barcodeCanvasRefs.current[0] = el} className="codebarres"></canvas>
           </div>
         </header>
         <div className="info">
@@ -188,16 +223,38 @@ const BonDeLivraison = () => {
             </tbody>
             <tfoot className="total-row">
               <tr>
-                <th>Total</th>
-                <td>{livraison.totalPrice}</td>{" "}
-                {/* Assurez-vous de calculer le total si plusieurs articles */}
+                <th>Montant HT</th>
+                <td>{montantHT.toFixed(2)}</td>
+              </tr>
+              <tr>
+                <th>TVA 19%</th>
+                <td>{tva.toFixed(2)}</td>
+              </tr>
+              <tr>
+                <th>Frais de livraison</th>
+                <td>7dt</td>
+              </tr>
+              <tr>
+                <th>Prix TTC</th>
+                <td>{prixTTC.toFixed(2)}</td>
               </tr>
             </tfoot>
           </table>
         </section>
-        <footer style={{textAlign:'center'}}>
-          <p>Merci de faire affaire avec nous !</p>
+        <footer style={{ textAlign: 'center' }}>
+          <p>الفصل الأول:تتولى الشركة الناقلة المحافضة على الطرود و إيصالها للحرفاء على الحالة التي تسلمهم عليها و ذلك بالعنوان المحدد من طرف البائع بكامل تراب الجمهورية.و عند تعذر تسليم الطرد لاي سبب كان"غياب الحريف أو عدم جاهزيته لاستلام الطرد أو...."و إستنفاذ كل المحاولات،يقع ارجاع الطرد الى الباعث بصفته البائع</p>
         </footer>
+        <Divider></Divider>
+        <section className="barcodes-section">
+          <h2>Codes-barres des colis</h2>
+          {livraison.parcels.map((parcel, index) => (
+            <div key={parcel.id} className="barcode-item">
+              <canvas ref={el => barcodeCanvasRefs.current[index] = el}></canvas>
+              {/* <p>{parcel.barcode}</p> */}
+            </div>
+          ))}
+        </section>
+        
       </div>
       <button onClick={handlePrint} className="print-button">
         Imprimer le Bon de Livraison

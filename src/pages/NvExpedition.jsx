@@ -1,22 +1,17 @@
 import React from 'react';
-import NewOrder from '../Components/NewOrder/NewOrder'
-import SideNav from '../Components/SideNav/SideNav';
-import NavBar from '../Components/Barnav/NavBar';
+import NewOrder from '../Components/NewOrder/NewOrder';
+import CommonLayout from '../Components/Layout';
 
 const NvExpedition = () => {
-    return (
-        <>
-        <NavBar/>
-        <SideNav>
-        <div>
-            <br/><br/>
-            <h1 style={{fontSize: '35px',color:'#2e2c2c', textAlign:'center'}}>Nouvelle expédition</h1><br/>
-            <h2 style={{fontSize: '25px',color:'#2e2c2c', textAlign:'center'}}>Créer une nouvelle livraison</h2><br/><br/>
-            <NewOrder />
-        </div>
-        </SideNav>
-        </>
-    );
+  return (
+    
+      <div className="text-center mt-10">
+        <h1 className="text-4xl text-gray-800">Nouvelle expédition</h1>
+        <h2 className="text-2xl text-gray-800 mt-5">Créer une nouvelle livraison</h2>
+        <NewOrder />
+      </div>
+    
+  );
 };
 
 export default NvExpedition;

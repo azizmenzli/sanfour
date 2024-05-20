@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = 'http://localhost:3003';
+const apiUrl = 'http://localhost:3002';
 
 
 class Interceptor {

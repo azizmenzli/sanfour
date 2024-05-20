@@ -76,3 +76,56 @@ const SideNav = ({ children }) => {
 };
 
 export default SideNav;
+// import React, { useState } from 'react';
+// import { Layout, Menu } from 'antd';
+// import { NavLink } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
+// import {
+//   DashboardOutlined,
+//   PlusOutlined,
+//   BarcodeOutlined,
+//   InboxOutlined,
+//   FileDoneOutlined,
+//   CarryOutOutlined,
+//   UserAddOutlined
+// } from '@ant-design/icons';
+
+// const { Sider } = Layout;
+// const AntDSideNav = () => {
+//   const { role } = useSelector(state => state.auth);
+//   const [collapsed, setCollapsed] = useState(false);
+
+//   const toggleCollapsed = () => {
+//     setCollapsed(!collapsed);
+//   };
+
+//   const menuItems = role === "Fournisseur" ? [
+//     { path: "/fournisseur-dashboard", name: "Dashboard", icon: <DashboardOutlined /> },
+//     { path: "/Nv-expedition", name: "New Expedition", icon: <PlusOutlined /> },
+//     { path: "/", name: "Track Parcels", icon: <BarcodeOutlined /> },
+//   ] : [
+//     { path: "/Dashboard", name: "Dashboard", icon: <DashboardOutlined /> },
+//     { path: "/Nv-expedition", name: "New Expedition", icon: <PlusOutlined /> },
+//     { path: "/Livraisonaaccepter", name: "Accept Deliveries", icon: <InboxOutlined /> },
+//     { path: "/En-cours-de-livraison", name: "In Delivery", icon: <CarryOutOutlined /> },
+//     { path: "/Livraison-Livré", name: "Mark as Delivered", icon: <FileDoneOutlined /> },
+//     { path: "/Runsheet", name: "Runsheet", icon: <BarcodeOutlined /> },
+//     { path: "/Ajouter-admin", name: "Add Admin", icon: <UserAddOutlined /> },
+//     { path: "/Ajouter-fournisseur", name: "Add Supplier", icon: <UserAddOutlined /> },
+//   ];
+
+//   return (
+//     <Sider collapsible collapsed={collapsed} onCollapse={toggleCollapsed}>
+//       <div className="logo" />
+//       <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+//         {menuItems.map((item, index) => (
+//           <Menu.Item key={index} icon={item.icon}>
+//             <NavLink to={item.path}>{item.name}</NavLink>
+//           </Menu.Item>
+//         ))}
+//       </Menu>
+//     </Sider>
+//   );
+// };
+
+// export default AntDSideNav;

@@ -1,115 +1,69 @@
-import React, { useState,useEffect } from 'react';
-import { Table, TagPicker } from 'rsuite';
-import { useNavigate,useLocation } from 'react-router-dom';
+import React, { useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import mockUsers from '../../assets/data/data';
-import { fetchAllCommands, setStatusFilter } from '../../features/slices/commandSlice';
+import { Table, Button } from 'antd';
+import { fetchAllCommands } from '../../features/slices/commandSlice';
 import ApiService from '../../Services/Api/ApiService';
-const { Column, HeaderCell, Cell } = Table;
 
-const Tablev = ({ statusFilter }) => {
-  const location =useLocation()
+const Tablev = ({ statusFilter, newStatus }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { commands } = useSelector(state => state.command);
 
-console.log(location.pathname);
-  const { id,commands, status,nomArticle, error} = useSelector((state) => state.command);
   useEffect(() => {
     dispatch(fetchAllCommands());
   }, [dispatch]);
   
-  const defaultColumns = [
-    { key: 'id', label: 'Id', fixed: true, width: 70 },
-    { key: 'nomArticle', label: 'Produit', width: 110 },
-    { key: 'prixTTC', label: 'Prix', width: 110 },
-    { key: 'adresseClient', label: 'Client', width: 110 },
-    { key: 'status', label: 'Statut de livraison', width: 130 },
-    { key: 'actions', label: 'Actions', width: 170 }
-  ];
-
-  const [columnKeys, setColumnKeys] = useState(defaultColumns.map(column => column.key).filter(key => !defaultColumns.find(col => col.key === key).hidden));
-
-  const CompactCell = ({ rowData, dataKey, ...props }) => <Cell {...props} style={{ padding: 4 }} />;
- 
-  
-  const CompactHeaderCell = ({ rowData, dataKey, ...props }) => <HeaderCell {...props} style={{ padding: 4 }} />;
-  const handleStatusChange = async (commandId, newStatus) => {
-    console.log(commandId);
+  const handleStatusChange = useCallback(async (commandId, status) => {
     try {
-      const response = await ApiService.updateCommandStatus(commandId, newStatus);
+      const response = await ApiService.updateCommandStatus(commandId, status);
       console.log('Status updated successfully', response);
-      // After updating, you might want to refresh the commands list to show updated status
-      dispatch(fetchAllCommands()); // Assuming fetchAllCommands will refresh the list
+      dispatch(fetchAllCommands());
     } catch (error) {
       console.error('Failed to update status', error);
-      // Handle error (e.g., show error message to the user)
     }
-  };
-  const ActionCell = ({ rowData, dataKey, ...props }) => (
-    <Cell {...props} style={{ padding: '6px', display: 'flex', justifyContent: 'space-around' }}>
-      <button style={{  marginRight: '10px',
-      backgroundColor: '#4CAF50', /* Vert */
-      color: 'white',
-      border: 'none',
-      borderRadius: '5px',
-      height: '25px',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s' }} 
-      onMouseOver={(e) => e.target.style.backgroundColor = '#45a049'} /* Assombrir au survol */
-    onMouseOut={(e) => e.target.style.backgroundColor = '#4CAF50'}onClick={() => handleStatusChange(rowData.id, 'AuDepot')}>Confirmer</button>
-      <button style={{ backgroundColor: '#f44336', /* Rouge */
-      color: 'white',
-      border: 'none',
-      borderRadius: '5px',
-      height: '25px',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s' }}
-      onMouseOver={(e) => e.target.style.backgroundColor = '#da190b'} /* Assombrir au survol */
-    onMouseOut={(e) => e.target.style.backgroundColor = '#f44336'} 
-      onClick={() => handleStatusChange(rowData.id, 'Annuler')}>Annuler</button>
-    </Cell>
-  );
+  }, [dispatch]);
 
-  // Filtrer les données basées sur le statut passé en prop
-  const filteredData = commands.filter(command =>
-    statusFilter ? command.status === statusFilter : true
-    
-  )
-  console.log(statusFilter);
+  const handleCancel = useCallback((commandId) => {
+    handleStatusChange(commandId, 'Annuler');
+  }, [handleStatusChange]);
 
-  const IdCell = ({ rowData, dataKey, ...props }) => (
-    <Cell {...props} style={{ padding: 4, cursor: 'pointer', color: 'blue', textDecoration: 'underline' }} onClick={() => navigate(`/BonDeLivraison?id=${rowData[dataKey]}`)}>
-      {rowData[dataKey]}
-    </Cell>
-  );
+  const columns = [
+    {
+      title: 'Id',
+      dataIndex: 'id',
+      key: 'id',
+      width: 70,
+      render: text => <Button type="link" onClick={() => navigate(`/BonDeLivraison?id=${text}`)}>{text}</Button>
+    },
+    { title: 'Produit', dataIndex: 'nomArticle', key: 'nomArticle', width: 110 },
+    { title: 'Prix', dataIndex: 'prixTTC', key: 'prixTTC', width: 110 },
+    { title: 'Client', dataIndex: 'adresseClient', key: 'adresseClient', width: 110 },
+    { title: 'Statut de livraison', dataIndex: 'status', key: 'status', width: 130 },
+    {
+      title: 'Actions',
+      key: 'actions',
+      width: 170,
+      render: (_, record) => (
+        <>
+          <Button onClick={() => handleStatusChange(record.id, newStatus)} style={{ marginRight: 8 }}>Confirmer</Button>
+          <Button danger onClick={() => handleCancel(record.id)}>Annuler</Button>
+        </>
+      ),
+    }
+  ];
+
+  const filteredData = commands.filter(command => statusFilter ? command.status === statusFilter : true);
 
   return (
-    <div style={{ width: '700px' }}>
+    <div style={{ width: 'auto' }}>
       <Table
-        height={400}
-        hover
-        showHeader
-        autoHeight
-        data={filteredData}
-        bordered
-        cellBordered
-        headerHeight={30}
-        rowHeight={46}
-        sortType='asc'
-      >
-        {defaultColumns.filter(column => columnKeys.includes(column.key)).map(column => (
-          <Column key={column.key} width={column.width} fixed={column.fixed}>
-            <HeaderCell>{column.label}</HeaderCell>
-            {column.key === 'id' ? (
-              <IdCell dataKey={column.key} />
-            ) : column.key === 'actions' ? (
-              <ActionCell dataKey={column.key} />
-            ) : (
-              <Cell dataKey={column.key} />
-            )}
-          </Column>
-        ))}
-      </Table>
+        columns={columns}
+        dataSource={filteredData}
+        rowKey="id"
+        pagination={{ pageSize: 50 }}
+        scroll={{ y: 400 }}
+      />
     </div>
   );
 };

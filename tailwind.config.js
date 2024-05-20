@@ -1,13 +1,11 @@
-const withMT = require("@material-tailwind/react/utils/withMT");
-
-module.exports = withMT({
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+module.exports = {
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {
-      fontFamily: {
-        inter: ["Inter", "sans-serif"],
-      },
-    },
+    extend: {},
+  },
+  variants: {
+    extend: {},
   },
   plugins: [],
-});
+}

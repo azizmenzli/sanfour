@@ -1,199 +1,99 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Form, Input, Button, InputNumber, message } from 'antd';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  Form,
-  ButtonToolbar,
-  Schema,
-  FlexboxGrid,
-  Button,
-  InputNumber
-} from "rsuite";
-import OrderValidation from "../OrderValidation/OrderValidation";
 import ApiService from '../../Services/Api/ApiService';
-const { StringType } = Schema.Types;
-
-const model = Schema.Model({
-  name: StringType().isRequired("Ce champ est obligatoire."),
-});
 
 const NewOrder = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
-  const currentUser = useSelector((state) => state.auth); 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [error, setError] = useState('');
-  const formRef = React.useRef();
-  const [formValue, setFormValue] = React.useState({
-    name: "",
-    tel: "",
-    adresse: "",
-    ville: "",
-    produit: "",
-    prix: "",
-  });
-  const [formData, setFormData] = useState({
-    nomArticle: '',
-    prixTTC: 0,
-    numberOfParcels: 0,
-    adresseVendeur: currentUser?.adress    || '', // Pre-fill with currentUser info
-    telephoneVendeur: currentUser?.telephone || '',
-    villeVendeur: currentUser?.ville || '',
-    adresseClient: '',
-    telephoneClient: '',
-    villeClient: '',
-    status: 'EnAttente', // Assuming you have a default status
-    totalPrice: 0,
-  });
-  console.log(currentUser);
-  useEffect(() => {
-    setFormData((formData) => ({
-      ...formData,
-      adresseVendeur: currentUser?.adress || '',
-      telephoneVendeur: currentUser?.telephone || '',
-      villeVendeur: currentUser?.ville || '',
-    }));
-  }, [currentUser]);
-  const [checkedItem, setCheckedItem] = useState(null);
+  const currentUser = useSelector((state) => state.auth);
+  const [form] = Form.useForm();
 
-  const handleCheckboxChange = (value) => {
-    setCheckedItem(value[0]);}
-    const handleChange = (e) => {
-      console.log(e.target);
-      const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
-    };
-    const handleSubmitOrder = async (orderDetails) => {
-      // Your ApiService call logic here
-      await ApiService.createCommand(orderDetails);
-    };
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      // Instead of calling the API here, just open the modal for final confirmation
-      handleOpen(); // Now, it just sets the modal to open
-    };
-    const handleInputChange = (value, name) => {
-      setFormData({ ...formData, [name]: value });
-    };
-    const handleFormChange = (value, name) => {
-      const isNumericField = ['prixTTC', 'numberOfParcels','totalPrice'].includes(name);
-  console.log(isNumericField,"the numeric");
-  // Convert value to a float for numeric fields, ensuring dot is used as the decimal separator
-  // and handling locale-specific formatting (e.g., comma as decimal separator)
-  const normalizedValue = isNumericField ? parseFloat(value.toString().replace(',', '.')) : value;
-  
-  // Update state with the normalized value
-  setFormData(prevFormData => ({
-    ...prevFormData,
-    [name]: normalizedValue
-  }));
-    };
+  const handleSubmit = async (values) => {
+    try {
+      await ApiService.createCommand({
+        ...values,
+        adresseVendeur: currentUser?.address || '',
+        telephoneVendeur: currentUser?.telephone || '',
+        villeVendeur: currentUser?.ville || '',
+        status: 'EnAttente',  // Assuming 'EnAttente' is a valid status
+      });
+      message.success('Commande créée avec succès!');
+      navigate('/dashboard'); // Adjust the route as necessary
+    } catch (error) {
+      message.error('Échec de la création de la commande');
+      console.error('Failed to submit order', error);
+    }
+  };
+
   return (
-    <>
-      <style>{`
-        .new-order-form {
-          padding: 20px;
-          background-color: #fff;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-          margin-bottom: 20px;
-        }
-        
-        .rs-form-group {
-          margin-bottom: 15px;
-        }
-        
-        .rs-form-control-label {
-          margin-bottom: 5px;
-          font-weight: bold;
-        }
-        
-        .rs-input, .rs-input-number {
-          width: 100%;
-        }
-        
-        .button-toolbar {
-          display: flex;
-          justify-content: flex-end;
-          margin-top: 20px;
-        }
-        
-        .rs-btn-primary {
-          background-color: #007bff;
-          border-color: #007bff;
-        }
-      `}</style>
-      <FlexboxGrid justify="center">
-        <FlexboxGrid.Item colspan={12}>
-          <div className="new-order-form">
-            <Form
-              model={model}
-              ref={formRef}
-              formValue={formData}
-              // onChange={handleChange}
-              onSubmit={handleSubmit}
-              fluid
-            >
-              {/* <Form.Group>
-                <Form.ControlLabel>Nom du destinataire</Form.ControlLabel>
-                <Form.Control name="name" />
-              </Form.Group> */}
-              <Form.Group>
-                <Form.ControlLabel>N° Tel du destinataire</Form.ControlLabel>
-                <Form.Control 
-    name="telephoneClient" 
-    onChange={(value) => handleFormChange(value, 'telephoneClient')} 
-  />
-              </Form.Group>
-              <Form.Group>
-                <Form.ControlLabel>Adresse de livraison</Form.ControlLabel>
-                <Form.Control name="adresseClient" onChange={(value) => handleFormChange(value, 'adresseClient')}  />
-              </Form.Group>
-              <Form.Group>
-                <Form.ControlLabel>Ville</Form.ControlLabel>
-                <Form.Control name="villeClient" onChange={(value) => handleFormChange(value, 'villeClient')} />
-              </Form.Group>
-              <Form.Group>
-                <Form.ControlLabel>Produit</Form.ControlLabel>
-                <Form.Control name="nomArticle" onChange={(value) => handleFormChange(value, 'nomArticle')} />
-              </Form.Group>
-              <Form.Group>
-                <Form.ControlLabel>Prix de produit</Form.ControlLabel>
-                <Form.Control name="prixTTC"onChange={(value) => handleFormChange(value, 'prixTTC')} />
-              </Form.Group>
-              <Form.Group>
-                <Form.ControlLabel>Prix TTC </Form.ControlLabel>
-                <Form.Control name="totalPrice"onChange={(value) => handleFormChange(value, 'totalPrice')} />
-              </Form.Group>
-              <Form.Group>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <label htmlFor="numberOfParcels">Numero de colis</label>
-        
-          <InputNumber
-          id="numberOfParcels"
-          min={1}
-          value={formData.numberOfParcels}
-          onChange={(value) => handleFormChange(value, 'numberOfParcels')}
-        />
-        </div>
-      </Form.Group>
-              <ButtonToolbar className="button-toolbar">
-                <Button onClick={handleSubmit} appearance="primary">
-                  Valider
-                </Button>
-              </ButtonToolbar>
-            </Form>
-          </div>
-          <OrderValidation
-            open={open}
-            handleClose={handleClose}
-            formValues={formData}
-            submitOrder={handleSubmitOrder}
-          />
-        </FlexboxGrid.Item>
-      </FlexboxGrid>
-    </>
+    <div className="p-8 bg-white rounded-lg shadow-md max-w-xl mx-auto mt-10">
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={handleSubmit}
+        initialValues={{
+          adresseVendeur: currentUser?.address,
+          telephoneVendeur: currentUser?.telephone,
+          villeVendeur: currentUser?.ville,
+        }}
+      >
+        <Form.Item
+          name="nomArticle"
+          label="Produit"
+          rules={[{ required: true, message: 'Veuillez saisir le nom du produit!' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="prixTTC"
+          label="Prix HT"
+          rules={[{ required: true, message: 'Veuillez saisir le prix TTC!' }]}
+        >
+          <InputNumber style={{ width: '100%' }} min={0} />
+        </Form.Item>
+        <Form.Item
+          name="totalPrice"
+          label="Prix TTC"
+          rules={[{ required: true, message: 'Veuillez saisir le prix total!' }]}
+        >
+          <InputNumber style={{ width: '100%' }} min={0} />
+        </Form.Item>
+        <Form.Item
+          name="telephoneClient"
+          label="N° Tel du destinataire"
+          rules={[{ required: true, message: 'Veuillez saisir le numéro de téléphone du destinataire!' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="adresseClient"
+          label="Adresse de livraison"
+          rules={[{ required: true, message: "Veuillez saisir l'adresse de livraison!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="villeClient"
+          label="Ville"
+          rules={[{ required: true, message: 'Veuillez saisir la ville!' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="numberOfParcels"
+          label="Nombre de colis"
+          rules={[{ required: true, message: 'Veuillez saisir le nombre de colis!' }]}
+        >
+          <InputNumber min={1} style={{ width: '100%' }} />
+        </Form.Item>
+        <Form.Item>
+          <Button  htmlType="submit" className="w-full">
+            Valider
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 

@@ -1,72 +1,56 @@
 import React from 'react';
-import { Form, ButtonToolbar, Button, Input } from 'rsuite';
-import NavBar from '../Components/Barnav/NavBar';
-import SideNav from '../Components/SideNav/SideNav';
-
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
+import { Form, Input, Button } from 'antd';
 
 const NewAdmin = () => {
+  const [form] = Form.useForm();
+
+  const handleFinish = (values) => {
+    console.log('Form values:', values);
+    // Add logic to handle form submission
+  };
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-  <NavBar />
-  <div style={{ display: "flex", height: "calc(100% - 55px)" }}>
-        <div
-          style={{
-            position: "fixed",
-            top: "55px",
-            left: 0,
-            width: "250px",
-            height: "calc(100vh - 55px)",
-            overflowY: "auto",
-          }}
+    <div className="flex flex-col h-full items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
+        <h2 className="text-3xl text-gray-800 mb-5 text-center">Ajouter un administrateur</h2>
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleFinish}
         >
-          <SideNav />
-        </div>
-        <div
-          style={{
-            marginLeft: "250px",
-            width: "calc(100% - 250px)",
-            paddingTop: "20px",
-          }}
-        ><br/>
-          
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+          <Form.Item
+            name="name"
+            label="Nom"
+            rules={[{ required: true, message: 'Veuillez saisir le nom!' }]}
           >
-            <div style={{ margin: "20px 0" }}>
-              <h2 style={{ fontSize: "25px", color: "#2e2c2c" }}>
-                Ajouter un administrateur
-              </h2>
-            </div>
-            <Form>
-    <Form.Group controlId="name">
-      <Form.ControlLabel>Nom</Form.ControlLabel>
-      <Form.Control name="name" />
-    </Form.Group>
-    <Form.Group controlId="email">
-      <Form.ControlLabel>Email</Form.ControlLabel>
-      <Form.Control name="email" type="email" />
-    </Form.Group>
-    <Form.Group controlId="password">
-      <Form.ControlLabel>Mot de passe</Form.ControlLabel>
-      <Form.Control name="password" type="password" autoComplete="off" />
-    </Form.Group>
-    <Form.Group>
-      <ButtonToolbar>
-        <Button appearance="ghost">Submit</Button>
-        <Button appearance="default">Cancel</Button>
-      </ButtonToolbar>
-    </Form.Group>
-  </Form>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[{ required: true, message: 'Veuillez saisir l\'email!' }]}
+          >
+            <Input type="email" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="Mot de passe"
+            rules={[{ required: true, message: 'Veuillez saisir le mot de passe!' }]}
+          >
+            <Input.Password autoComplete="off" />
+          </Form.Item>
+          <div className="flex justify-center mt-4">
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+            <Button htmlType="button" className="ml-4" onClick={() => form.resetFields()}>
+              Cancel
+            </Button>
           </div>
-        </div>
+        </Form>
       </div>
-  </div>
-  )
+    </div>
+  );
 };
 
-export default NewAdmin
+export default NewAdmin;

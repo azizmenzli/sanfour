@@ -1,15 +1,9 @@
 import React, { useState } from "react";
-import {
-  Input,
-  Modal,
-  Button,
-  Panel,
-  Stack,
-} from "rsuite";
+import { Input, Modal, Button } from "antd";
 import { FcSearch } from "react-icons/fc";
 import Bg from "../../assets/images/bg.png";
-import Steps from "../Steps/Steps";
-import mockUsers from "../../assets/data/data"; // Assurez-vous que le chemin est correct
+import StepsComponent from "../Steps/Steps";
+import mockUsers from "../../assets/data/data"; // Ensure the path is correct
 
 const Drawersuivi = () => {
   const [open, setOpen] = useState(false);
@@ -18,11 +12,13 @@ const Drawersuivi = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setSelectedLivraison(null); // Réinitialiser la sélection lors de la fermeture du modal
+    setSelectedLivraison(null); // Reset selection on modal close
   };
 
   const handleSearch = () => {
-    const foundLivraison = mockUsers.find(livraison => livraison.id === parseInt(inputId, 10));
+    const foundLivraison = mockUsers.find(
+      (livraison) => livraison.id === parseInt(inputId, 10)
+    );
     if (foundLivraison) {
       setSelectedLivraison(foundLivraison);
       setOpen(true);
@@ -32,70 +28,47 @@ const Drawersuivi = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        width: "100%",
-        backgroundColor: '#f0f0f0'
-      }}
-    >
-      <Panel
-        className="panel-bg-custom"
-        bordered
-        header={
-          <Stack justifyContent="space-between">
-            <span style={{color:'red', fontSize: '24px'}}>Suivi de colis</span>
-          </Stack>
-        }
+    <div className="flex justify-center items-center h-screen w-full bg-gray-200">
+      <div
+        className="relative bg-white shadow-lg rounded-lg p-6 flex flex-col items-center"
         style={{
-          justifyContent: "center",
-          alignItems: "center",
           width: 600,
-          height: 300,
-          margin: "10px auto",
           backgroundImage: `url(${Bg})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          border:'solid',
-          borderColor:'white'
+          border: 'solid',
+          borderColor: 'white',
         }}
       >
-        <form onSubmit={(e) => e.preventDefault()}>
-          <Stack spacing={10}>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                width: '100%',
-                position: 'absolute',
-                bottom: 25,
-              }}>
-              <Input
-                name="name"
-                placeholder="N° de la commande"
-                style={{ width: 450,  height: 70, border:'solid' }}
-                value={inputId}
-                onChange={(value) => setInputId(value)}
-              />
-              <Button onClick={handleSearch} style={{ width: 80, border:'solid 3px', borderColor:'#58a0e1', borderRadius:'10 px' }}>
-                <FcSearch style={{ width: 45,  height: 45}}/>
-              </Button>
-            </div>
-          </Stack>
+        <h2 className="text-2xl text-red-500 mb-4">Suivi de colis</h2>
+        <form onSubmit={(e) => e.preventDefault()} className="w-full flex justify-center items-center">
+          <div className="flex w-3/4">
+            <Input
+              name="name"
+              placeholder="N° de la commande"
+              className="w-full h-12 p-4 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={inputId}
+              onChange={(e) => setInputId(e.target.value)}
+            />
+            <Button
+              onClick={handleSearch}
+              className="w-12 h-12 bg-blue-500 flex justify-center items-center rounded-r-lg border-3 border-blue-400 hover:bg-blue-600 transition duration-300"
+            >
+              <FcSearch className="w-6 h-6" />
+            </Button>
+          </div>
         </form>
 
-        <Modal open={open} onClose={handleClose}>
-          <Modal.Header>
-            <Modal.Title>Statut de livraison N°: {selectedLivraison?.id}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Steps livraison={selectedLivraison} />
-          </Modal.Body>
+        <Modal
+          title={`Statut de livraison N°: ${selectedLivraison?.id}`}
+          visible={open}
+          onCancel={handleClose}
+          footer={null}
+        >
+          <StepsComponent livraison={selectedLivraison} />
         </Modal>
-      </Panel>
+      </div>
     </div>
   );
 };

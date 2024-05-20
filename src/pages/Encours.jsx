@@ -1,57 +1,24 @@
 import React from 'react';
 import Tablev from "../Components/Tables/Tables";
-import NavBar from "../Components/Barnav/NavBar";
-import SideNav from "../Components/SideNav/SideNav";
-import mockUsers from '../assets/data/data';
+import { useSelector } from 'react-redux';
 
 const Encours = () => {
-  const livraisonsEnCours = mockUsers.filter(livraison => livraison.StatutDeLivraison === "Au dépôt");
+  const { commands } = useSelector((state) => state.command);
 
-    return (
-        <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <NavBar />
-      <div style={{ display: "flex", height: "calc(100% - 55px)" }}>
-        <div
-          style={{
-            position: "fixed",
-            top: "55px",
-            left: 0,
-            width: "250px",
-            height: "calc(100vh - 55px)",
-            overflowY: "auto",
-          }}
-        >
-          <SideNav />
-        </div>
-        <div
-          style={{
-            marginLeft: "250px",
-            width: "calc(100% - 250px)",
-            paddingTop: "20px",
-          }}
-        ><br/>
-          <h1 style={{ fontSize: "35px", color: "#2e2c2c", margin: "20px 0" }}>
-            Rendre en cours de livraison
-          </h1>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ margin: "20px 0" }}>
-              <h2 style={{ fontSize: "20px", color: "#2e2c2c" }}>
-                Pointage des colis sortants du dépôt
-              </h2>
-            </div>
-            {/* Tableau affiché ici */}
-            <Tablev statusFilter="AuDepot"/>
-          </div>
+  // Filter deliveries with the status "Au dépôt"
+  const livraisonsEnCours = commands.filter(livraison => livraison.StatutDeLivraison === "Au dépôt");
+
+  return (
+    <div className="flex flex-col h-full">
+      <div className="flex flex-col mt-5">
+        <h1 className="text-4xl text-gray-800 mb-5 text-center">Rendre en cours de livraison</h1>
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl text-gray-800 mb-5">Pointage des colis sortants du dépôt</h2>
+          <Tablev statusFilter="Expedier" newStatus="Livre" />
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default Encours;

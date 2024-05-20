@@ -93,7 +93,17 @@ class ApiService {
           throw error;
         }
       }
-
+      async changePassword(currentPassword, newPassword) {
+        try {
+            const response = await this.axiosInstance.patch("/auth/change-password", {
+                currentPassword,
+                newPassword,
+            });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
     // Additional methods as needed...
 }
 

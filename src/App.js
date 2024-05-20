@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import "rsuite/dist/rsuite-no-reset.min.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import NvExpedition from "./pages/NvExpedition";
@@ -15,41 +15,30 @@ import BonDeLivraison from "./pages/BonDeLivraison";
 import FourDash from "./pages/FourDash";
 import Login from "./Components/Login/Login";
 import { useSelector } from "react-redux";
+import CommonLayout from "./Components/Layout";
+import ChangePasswordForm from "./Components/Login/ChangePassword";
 
 function App() {
-  /*const user = useSelector((state) => state.user.user);*/
-  /*const { authUser } = user;*/
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  
+
   return (
     <div className="App">
       <BrowserRouter style={{ display: "flex" }}>
         <Routes>
-
-        <Route path="/" element={isAuthenticated ? <Dashboard /> : <Login />}></Route>
-
-          <Route path="/Dashboard" element={<Dashboard></Dashboard>}></Route>
-
-          <Route path="/fournisseur-dashboard" element={<FourDash></FourDash>}></Route>
-
-          <Route path="/Nv-expedition" element={<NvExpedition></NvExpedition>}></Route>
-          
-          <Route path="/Livraisonaaccepter" element={<LivraisonAaccepter></LivraisonAaccepter>}></Route>
-
-          <Route path="/En-cours-de-livraison" element={<Encours></Encours>}></Route>
-
-          <Route path="/Livraison-Livré" element={<Livré></Livré>}></Route>
-
-          <Route path="/Ajouter-admin" element={<NewAdmin></NewAdmin>}></Route>
-
-          <Route path="/Ajouter-fournisseur" element={<NewSeller></NewSeller>}></Route>
-
-          <Route path="/Runsheet" element={<Runsheet></Runsheet>}></Route>
-
-          <Route path="/BonDeLivraison" element={<BonDeLivraison></BonDeLivraison>}></Route>
-
-
-          </Routes>
+          <Route path="/change-password" element={isAuthenticated ? <ChangePasswordForm /> : <Navigate to="/" />} />
+          <Route path="/" element={isAuthenticated ? <Navigate to="/Dashboard" /> : <Login />} />
+          <Route path="/Dashboard" element={isAuthenticated ? <CommonLayout><Dashboard /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/Suivi" element={isAuthenticated ? <CommonLayout><Home /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/fournisseur-dashboard" element={isAuthenticated ? <CommonLayout><FourDash /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/Nv-expedition" element={isAuthenticated ? <CommonLayout><NvExpedition /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/Livraisonaaccepter" element={isAuthenticated ? <CommonLayout><LivraisonAaccepter /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/En-cours-de-livraison" element={isAuthenticated ? <CommonLayout><Encours /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/Livraison-Livré" element={isAuthenticated ? <CommonLayout><Livré /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/Ajouter-admin" element={isAuthenticated ? <CommonLayout><NewAdmin /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/Ajouter-fournisseur" element={isAuthenticated ? <CommonLayout><NewSeller /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/Runsheet" element={isAuthenticated ? <CommonLayout><Runsheet /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/BonDeLivraison" element={isAuthenticated ? <CommonLayout><BonDeLivraison /></CommonLayout> : <Navigate to="/" />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );

@@ -1,83 +1,74 @@
-import React, { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-} from "@material-tailwind/react";
-import { Button } from "@material-tailwind/react";
-import { Input } from "@material-tailwind/react";
-import { login } from "../../features/slices/authSlice";
+import React, { useState } from 'react';
+import { Card, Form, Input, Button, message } from 'antd';
 import { useDispatch } from "react-redux";
 import ApiService from "../../Services/Api/ApiService";
 import { loginSuccess } from "../../features/slices/authSlice";
+import logo from '../../assets/images/logo.png'; // Ensure the path to your logo image is correct
+
 const Login = () => {
-  const intitalState = {
-    email: "",
-    password: "",
-    
-  };
-  const [values, setValues] = useState(intitalState);
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
-  };
-console.log(values);
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const handleSubmit = async () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const response = await ApiService.login(values.email, values.password);
-      // Assuming response includes the token
-      dispatch(loginSuccess(response)); // Dispatch loginSuccess with the response
+      dispatch(loginSuccess(response)); // Assuming response includes the token
+      message.success("Login successful!");
     } catch (error) {
       console.error("Login failed:", error);
-      // Handle login error (e.g., invalid credentials, network error)
-      // You might want to set error state here and show error messages in the UI
+      message.error("Login failed. Please check your credentials and try again.");
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
-    <div className="grid grid-cols-1 items-center justify-items-center h-screen">
-      <Card className="w-96">
-        <CardHeader
-          variant="gradient"
-          color="blue"
-          className="mb-4 grid h-28 place-items-center"
-        >
-          <Typography variant="h3" color="white">
-            Sign In
-          </Typography>
-        </CardHeader>
-        <CardBody className="flex flex-col gap-4">
-          <Input
-            label="Email"
-            size="lg"
-            type="text"
-            name="email"  
-            value={values.email}
-            onChange={onChange}
-          />
-          <Input
-            label="Password"
-            size="lg"
-            type="password"
-            name="password"
-            value={values.password}
-            onChange={onChange}
-          />
-          
-        </CardBody>
-        <CardFooter className="pt-0">
-          <Button
-            variant="gradient"
-            fullWidth
-            onClick={handleSubmit}
-          >
-            Sign In
-          </Button>
+    <div className="flex items-center justify-center h-screen bg-gray-300">
+      <div className="flex w-full max-w-6xl bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="flex flex-col justify-center items-center w-4/5 bg-blue-500 text-white p-10">
+          <img src={logo} alt="Company Logo" className="mb-6 w-120" />
+          <h1 className="text-4xl text-center">Approche-toi du but avec Sanfour rapide!</h1>
          
-        </CardFooter>
-      </Card>
+        </div>
+        <div className="w-3/5 p-16">
+          <Card>
+            <h2 className="text-3xl font-bold mb-8 text-center">Login to Your Account</h2>
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleSubmit}
+              className="space-y-6"
+            >
+              <Form.Item
+                name="email"
+                label="Email"
+                rules={[{ required: true, message: 'Please input your email!' }]}
+              >
+                <Input placeholder="Enter your email" />
+              </Form.Item>
+              <Form.Item
+                name="password"
+                label="Password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+              >
+                <Input.Password placeholder="Enter your password" />
+              </Form.Item>
+              <Form.Item>
+                <Button  htmlType="submit" block loading={loading}>
+                  Sign In
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+          <div className="mt-16 text-gray-600">
+        &copy; 2024 Developed by AM-KW. All rights reserved.
+      </div>
+        </div>
+        
+      </div>
+      
     </div>
   );
 };

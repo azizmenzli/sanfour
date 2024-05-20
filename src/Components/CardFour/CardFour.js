@@ -1,31 +1,35 @@
 import React from 'react';
-import { Panel, Row, Col } from 'rsuite';
-import mockUsers from '../../assets/data/data'; // Assurez-vous que ce chemin d'importation est correct
+import { useSelector } from 'react-redux';
+import { FaBox, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const CardFour = () => {
-  // Calcul des nombres pour chaque statut
-  const livraisonsAaccepter = mockUsers.filter(user => user.StatutDeLivraison === 'En attente').length;
-  const livraisonsEffectuees = mockUsers.filter(user => user.StatutDeLivraison === 'Livré').length;
-  const livraisonsAnnulees = mockUsers.filter(user => user.StatutDeLivraison === 'Annulé').length; // Ajouté si vous avez des données pour ce statut
+  const commands = useSelector((state) => state.command.commands);
+
+  const livraisonsAaccepter = commands.filter(user => user.StatutDeLivraison === 'En attente').length;
+  const livraisonsEffectuees = commands.filter(user => user.StatutDeLivraison === 'Livré').length;
+  const livraisonsAnnulees = commands.filter(user => user.StatutDeLivraison === 'Annulé').length;
+
+  const cardData = [
+    { title: 'Livraisons en attente', count: livraisonsAaccepter, color: 'bg-blue-500', icon: <FaBox /> },
+    { title: 'Livraisons effectuées', count: livraisonsEffectuees, color: 'bg-green-500', icon: <FaCheckCircle /> },
+    { title: 'Livraisons annulées', count: livraisonsAnnulees, color: 'bg-red-500', icon: <FaTimesCircle /> },
+  ];
 
   return (
-    <Row style={{display:'flex',margin:'10px'}}>
-      <Col >
-        <Panel bordered header="Livraisons en attente" style={{borderColor:'black'}}>
-          <text style={{fontSize:'40px',color:'#2e2c2c'}}>{livraisonsAaccepter}</text>
-        </Panel>
-      </Col>
-      <Col >
-        <Panel bordered header="Livraisons effectuées" style={{borderColor:'black'}}>
-          <text style={{fontSize:'40px'}}>{livraisonsEffectuees}</text>
-        </Panel>
-      </Col>
-      <Col >
-        <Panel bordered header="Livraisons annulées" style={{borderColor:'black'}}>
-          <text style={{fontSize:'40px'}}>{livraisonsAnnulees}</text>
-        </Panel>
-      </Col>
-    </Row>
+    <div className="flex flex-wrap justify-center gap-6 mt-6">
+      {cardData.map((card, index) => (
+        <div
+          key={index}
+          className={`relative bg-white shadow-md rounded-lg p-6 w-64 text-center transform transition-transform hover:scale-105 hover:shadow-lg ${card.color} text-white`}
+        >
+          <div className="absolute top-4 right-4 text-2xl">
+            {card.icon}
+          </div>
+          <h3 className="text-lg font-medium mb-2">{card.title}</h3>
+          <span className="text-4xl font-bold">{card.count}</span>
+        </div>
+      ))}
+    </div>
   );
 };
 

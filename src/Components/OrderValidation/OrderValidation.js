@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal, Button, } from 'rsuite';
 
 const OrderValidation = ({ open, handleClose, formValues,submitOrder }) => {
-  console.log(formValues);
   const handleConfirmOrder = async () => {
     try {
       await submitOrder(formValues); // Use the submitOrder function passed as prop
