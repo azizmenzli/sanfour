@@ -5,6 +5,14 @@ import { Table, Button } from 'antd';
 import { fetchAllCommands } from '../../features/slices/commandSlice';
 import ApiService from '../../Services/Api/ApiService';
 
+const statusMapping = {
+  EnAttente: "En Attente",
+  Remis: "Remis",
+  AuDepot: "Au Dépôt",
+  Expedier: "Expédié",
+  Livre: "Livré",
+  Annuler: "Annulé"
+};
 const Tablev = ({ statusFilter, newStatus }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,7 +25,7 @@ const Tablev = ({ statusFilter, newStatus }) => {
   const handleStatusChange = useCallback(async (commandId, status) => {
     try {
       const response = await ApiService.updateCommandStatus(commandId, status);
-      console.log('Status updated successfully', response);
+      
       dispatch(fetchAllCommands());
     } catch (error) {
       console.error('Failed to update status', error);
@@ -27,7 +35,6 @@ const Tablev = ({ statusFilter, newStatus }) => {
   const handleCancel = useCallback((commandId) => {
     handleStatusChange(commandId, 'Annuler');
   }, [handleStatusChange]);
-
   const columns = [
     {
       title: 'Id',
@@ -39,7 +46,19 @@ const Tablev = ({ statusFilter, newStatus }) => {
     { title: 'Produit', dataIndex: 'nomArticle', key: 'nomArticle', width: 110 },
     { title: 'Prix', dataIndex: 'prixTTC', key: 'prixTTC', width: 110 },
     { title: 'Client', dataIndex: 'adresseClient', key: 'adresseClient', width: 110 },
-    { title: 'Statut de livraison', dataIndex: 'status', key: 'status', width: 130 },
+    {
+      title: 'Nom du Client',
+      dataIndex:  'clientName',
+      key: 'clientName',
+      width:110,
+    },
+    { title: 'Statut de livraison', dataIndex: 'status', key: 'status', width: 130,render: (text) => statusMapping[text] || text },
+    {
+      title: 'Nombre de colis',
+      dataIndex: 'parcelCount',
+      key: 'parcelCount',
+      width:110
+    },
     {
       title: 'Actions',
       key: 'actions',
@@ -47,13 +66,15 @@ const Tablev = ({ statusFilter, newStatus }) => {
       render: (_, record) => (
         <>
           <Button onClick={() => handleStatusChange(record.id, newStatus)} style={{ marginRight: 8 }}>Confirmer</Button>
-          <Button danger onClick={() => handleCancel(record.id)}>Annuler</Button>
+          <Button danger onClick={() => handleCancel(record.id)} disabled={record.status === 'Livre'}>Annuler</Button>
         </>
       ),
     }
   ];
 
   const filteredData = commands.filter(command => statusFilter ? command.status === statusFilter : true);
+
+
 
   return (
     <div style={{ width: 'auto' }}>

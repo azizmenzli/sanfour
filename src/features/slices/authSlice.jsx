@@ -22,7 +22,7 @@ const authSlice = createSlice({
         const { token } = action.payload;
         const decoded = jwtDecode(token); // Decode the token to get user information
         // Adjust these fields based on your token's payload structure
-        const { userId, email, role,name,ville,adress } = decoded;
+        const { userId, email, role,name,ville,adress,phone } = decoded;
         
         // Store authentication information in localStorage  
         setAuthInfo({ token, userId, email, role });
@@ -35,6 +35,7 @@ const authSlice = createSlice({
         state.ville=ville;
         state.adress=adress;
         state.isAuthenticated = true;
+        state.phone=phone;
     },
     // Handle logout by clearing authentication information from localStorage and state
     logout(state) {

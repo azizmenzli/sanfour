@@ -2,12 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { FaBox, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
-const CardFour = () => {
-  const commands = useSelector((state) => state.command.commands);
+const CardFour = ({commands}) => {
+  // const commands = useSelector((state) => state.command.commands);
 
-  const livraisonsAaccepter = commands.filter(user => user.StatutDeLivraison === 'En attente').length;
-  const livraisonsEffectuees = commands.filter(user => user.StatutDeLivraison === 'Livré').length;
-  const livraisonsAnnulees = commands.filter(user => user.StatutDeLivraison === 'Annulé').length;
+  const livraisonsAaccepter = commands.filter(user => user.status === 'EnAttente').length;
+  const livraisonsEffectuees = commands.filter(user => user.status === 'Livre').length;
+  const livraisonsAnnulees = commands.filter(user => user.status === 'Annuler').length;
 
   const cardData = [
     { title: 'Livraisons en attente', count: livraisonsAaccepter, color: 'bg-blue-500', icon: <FaBox /> },

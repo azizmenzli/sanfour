@@ -1,12 +1,28 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
-
+import { Form, Input, Button, message } from 'antd';
+import ApiService from '../Services/Api/ApiService';
 const NewSeller = () => {
   const [form] = Form.useForm();
 
-  const handleFinish = (values) => {
-    console.log('Form values:', values);
-    // Add logic to handle form submission
+  const handleFinish = async (values) => {
+   
+    try {
+      const response = await ApiService.register(
+        values.email,
+        values.password,
+        values.name,
+        'VENDEUR',
+        values.adresse,
+        values.ville,
+        values.telephone
+      );
+      
+      message.success('Seller created successfully!');
+      form.resetFields();
+    } catch (error) {
+      message.error('Failed to create seller.');
+      console.error('Error creating seller:', error);
+    }
   };
 
   return (

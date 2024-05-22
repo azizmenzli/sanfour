@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Form, Input, Button, Table, message } from 'antd';
 import { debounce } from 'lodash';
 import ApiService from '../Services/Api/ApiService';
@@ -6,15 +6,23 @@ import ApiService from '../Services/Api/ApiService';
 const Runsheet = () => {
   const [idSearch, setIdSearch] = useState('');
   const [commandData, setCommandData] = useState([]);
-
+  const inputRef = useRef(null);
+  function extractBarcode(scannedBarcode){
+    // Remove the '#' and ',' characters from the barcode
+    return scannedBarcode.replace(/[#,]/g, '');
+  }
+  const actualBarcode = extractBarcode(idSearch);
   const handleSearch = async () => {
-    const encodedBarcode = encodeURIComponent(idSearch);
+    const encodedBarcode = encodeURIComponent(actualBarcode);
     try {
       const data = await ApiService.getCommandByBarcode(encodedBarcode);
       setCommandData(prevData => [...prevData, data]);
+      setIdSearch(''); // Clear the input after search
     } catch (error) {
       message.error("Failed to fetch command data.");
       console.error("Failed to fetch command data:", error);
+    } finally {
+      inputRef.current.focus(); // Auto-focus the input field after search
     }
   };
 
@@ -28,6 +36,12 @@ const Runsheet = () => {
       title: 'Article Name',
       dataIndex: 'articleName',
       key: 'articleName',
+    },
+    {
+      title: 'Nom du Client',
+      dataIndex: ['command', 'clientName'],
+      key: 'clientName',
+      render: (text, record) => record.command.clientName,
     },
     {
       title: 'Telephone Vendeur',
@@ -53,11 +67,17 @@ const Runsheet = () => {
       key: 'villeClient',
       render: (text, record) => record.command.villeClient,
     },
+    {
+      title: 'Nombre de colis',
+      dataIndex: 'totalParcels',
+      key: 'totalParcels',
+    },
   ];
 
   const handleReset = () => {
     setIdSearch('');
     setCommandData([]);
+    inputRef.current.focus(); // Auto-focus the input field after reset
   };
 
   const debouncedSearch = debounce(() => {
@@ -74,13 +94,17 @@ const Runsheet = () => {
     };
   }, [idSearch]);
 
+  useEffect(() => {
+    inputRef.current.focus(); // Auto-focus the input field when the component mounts
+  }, []);
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex flex-col mt-5 items-center">
         <h2 className="text-3xl text-gray-800 mb-5">Runsheet</h2>
         <Form className="w-full max-w-lg" layout="vertical">
           <Form.Item label="Id colis">
-            <Input value={idSearch} onChange={e => setIdSearch(e.target.value)} />
+            <Input ref={inputRef} value={idSearch} onChange={e => setIdSearch(e.target.value)} />
           </Form.Item>
           <div className="flex justify-center mt-4">
             <Button type="primary" onClick={handleSearch}>Search</Button>

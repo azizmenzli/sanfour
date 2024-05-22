@@ -1,13 +1,15 @@
 import axiosInstance from "./ApiInterceptor";
+
 // import urlConfig from "./Endpoints/url.json"; // Make sure this path matches your project structure
 
 class ApiService {
     constructor() {
         // Get the Axios instance configured with the interceptor
         this.axiosInstance = axiosInstance;
+        
     }
 
-    /**
+   /**
      * Registers a new user.
      * @param {string} email - The email of the user.
      * @param {string} password - The password of the user.
@@ -15,11 +17,12 @@ class ApiService {
      * @param {string} role - The role of the user.
      * @param {string} [Adress] - The address of the user.  
      * @param {string} [Ville] - The city of the user.
+     * @param {string} [telephone] - The telephone of the user.
      * @returns The response from the server.
      */
-    async register(email, password, name, role, Adress, Ville) {
+    async register(email, password, name, role, Adress, Ville, telephone) {
         try {
-            const response = await this.axiosInstance.post("/auth/register", {
+            const response = await this.axiosInstance.post(`/auth/register/`, {
                 email,
                 password,
                 name,
@@ -50,9 +53,9 @@ class ApiService {
             throw error;
         }
     }
-    async createCommand(commandData) {
+    async createCommand(id,commandData) {
         try {
-          const response = await axiosInstance.post("/commands/", commandData);
+          const response = await axiosInstance.post(`/commands/${id}`, commandData);
           return response.data;
         } catch (error) {
           throw error;
@@ -104,6 +107,14 @@ class ApiService {
             throw error;
         }
     }
+    async getCommandsByUserId(userId) {
+      try {
+          const response = await this.axiosInstance.get(`/commands/user/${userId}`);
+          return response.data;
+      } catch (error) {
+          throw error;
+      }
+  }                     
     // Additional methods as needed...
 }
 

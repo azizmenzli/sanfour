@@ -17,27 +17,29 @@ import Login from "./Components/Login/Login";
 import { useSelector } from "react-redux";
 import CommonLayout from "./Components/Layout";
 import ChangePasswordForm from "./Components/Login/ChangePassword";
+import ProtectedRoute from "./Components/ProtectedRoute"; // Import the ProtectedRoute component
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const userRole = useSelector((state) => state.auth.role);
 
   return (
     <div className="App">
       <BrowserRouter style={{ display: "flex" }}>
         <Routes>
-          <Route path="/change-password" element={isAuthenticated ? <ChangePasswordForm /> : <Navigate to="/" />} />
-          <Route path="/" element={isAuthenticated ? <Navigate to="/Dashboard" /> : <Login />} />
-          <Route path="/Dashboard" element={isAuthenticated ? <CommonLayout><Dashboard /></CommonLayout> : <Navigate to="/" />} />
-          <Route path="/Suivi" element={isAuthenticated ? <CommonLayout><Home /></CommonLayout> : <Navigate to="/" />} />
-          <Route path="/fournisseur-dashboard" element={isAuthenticated ? <CommonLayout><FourDash /></CommonLayout> : <Navigate to="/" />} />
-          <Route path="/Nv-expedition" element={isAuthenticated ? <CommonLayout><NvExpedition /></CommonLayout> : <Navigate to="/" />} />
-          <Route path="/Livraisonaaccepter" element={isAuthenticated ? <CommonLayout><LivraisonAaccepter /></CommonLayout> : <Navigate to="/" />} />
-          <Route path="/En-cours-de-livraison" element={isAuthenticated ? <CommonLayout><Encours /></CommonLayout> : <Navigate to="/" />} />
-          <Route path="/Livraison-Livré" element={isAuthenticated ? <CommonLayout><Livré /></CommonLayout> : <Navigate to="/" />} />
-          <Route path="/Ajouter-admin" element={isAuthenticated ? <CommonLayout><NewAdmin /></CommonLayout> : <Navigate to="/" />} />
-          <Route path="/Ajouter-fournisseur" element={isAuthenticated ? <CommonLayout><NewSeller /></CommonLayout> : <Navigate to="/" />} />
-          <Route path="/Runsheet" element={isAuthenticated ? <CommonLayout><Runsheet /></CommonLayout> : <Navigate to="/" />} />
-          <Route path="/BonDeLivraison" element={isAuthenticated ? <CommonLayout><BonDeLivraison /></CommonLayout> : <Navigate to="/" />} />
+          <Route path="/change-password" element={<ProtectedRoute><CommonLayout><ChangePasswordForm /></CommonLayout></ProtectedRoute>} />
+          <Route path="/" element={isAuthenticated ? <Navigate to={userRole === 'VENDEUR' ? "/fournisseur-dashboard":"/Dashboard"} /> : <Login />} />
+          <Route path="/Dashboard" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><Dashboard /></CommonLayout></ProtectedRoute>} />
+          <Route path="/Suivi" element={<ProtectedRoute roles={['VENDEUR']}><CommonLayout><Home /></CommonLayout></ProtectedRoute>} />
+          <Route path="/fournisseur-dashboard" element={<ProtectedRoute roles={['VENDEUR']}><CommonLayout><FourDash /></CommonLayout></ProtectedRoute>} />
+          <Route path="/Nv-expedition" element={<ProtectedRoute roles={['ADMIN', 'VENDEUR']}><CommonLayout><NvExpedition /></CommonLayout></ProtectedRoute>} />
+          <Route path="/Livraisonaaccepter" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><LivraisonAaccepter /></CommonLayout></ProtectedRoute>} />
+          <Route path="/En-cours-de-livraison" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><Encours /></CommonLayout></ProtectedRoute>} />
+          <Route path="/Livraison-Livré" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><Livré /></CommonLayout></ProtectedRoute>} />
+          <Route path="/Ajouter-admin" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><NewAdmin /></CommonLayout></ProtectedRoute>} />
+          <Route path="/Ajouter-fournisseur" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><NewSeller /></CommonLayout></ProtectedRoute>} />
+          <Route path="/Runsheet" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><Runsheet /></CommonLayout></ProtectedRoute>} />
+          <Route path="/BonDeLivraison" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><BonDeLivraison /></CommonLayout></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     </div>

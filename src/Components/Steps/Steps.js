@@ -1,17 +1,17 @@
 import React from 'react';
-import { Timeline } from 'antd';
+import { Steps } from 'antd';
 import { FcInTransit, FcSynchronize, FcShop } from "react-icons/fc";
 import { CheckCircleOutlined } from '@ant-design/icons';
 
 const getStepIcon = (status) => {
   switch (status) {
-    case 'Remis au transporteur':
+    case 'EnAttente':
       return <FcSynchronize className="text-2xl" />;
-    case 'Au dépôt':
+    case 'AuDepot':
       return <FcShop className="text-2xl" />;
-    case 'En cours de livraison':
+    case 'Expedier':
       return <FcInTransit className="text-2xl" />;
-    case 'Livré':
+    case 'Livre':
       return <CheckCircleOutlined className="text-2xl text-green-500" />;
     default:
       return null;
@@ -20,23 +20,24 @@ const getStepIcon = (status) => {
 
 const StepsComponent = ({ livraison }) => {
   const steps = [
-    { title: 'Remis au transporteur', description: `${livraison?.dateTransporteur} - ${livraison?.villeTransporteur}`, status: 'Remis au transporteur' },
-    { title: 'Au dépôt', description: `${livraison?.dateDepot} - ${livraison?.villeDepot}`, status: 'Au dépôt' },
-    { title: 'En cours de livraison', description: `${livraison?.dateEnCours} - ${livraison?.villeEnCours}`, status: 'En cours de livraison' },
-    { title: 'Livré', description: `${livraison?.dateLivraison} - ${livraison?.villeLivraison}`, status: 'Livré' },
+    { title: 'Remis au transporteur', description: `${livraison?.adresseVendeur}`, status: 'EnAttente' },
+    { title: 'Au dépôt', description: 'Résidence Farah Num61 Borj Cedria', status: 'AuDepot' },
+    { title: 'En cours de livraison', description: '', status: 'Expedier' },
+    { title: 'Livré', description: `${livraison?.adresseClient}`, status: 'Livre' },
   ];
 
+  const currentStepIndex = steps.findIndex(step => step.status === livraison.status);
+
   return (
-    <Timeline className="custom-timeline">
-      {steps.map((step, index) => (
-        <Timeline.Item key={index} dot={getStepIcon(step.status)}>
-          <div className="ml-4">
-            <p className="text-sm text-gray-500">{step.description}</p>
-            <p className="font-medium">{step.title}</p>
-          </div>
-        </Timeline.Item>
-      ))}
-    </Timeline>
+    <Steps
+      progressDot
+      current={currentStepIndex}
+      items={steps.map(step => ({
+        title: step.title,
+        description: step.description,
+        icon: getStepIcon(step.status),
+      }))}
+    />
   );
 };
 

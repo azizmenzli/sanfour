@@ -1,9 +1,26 @@
 import React, { useState } from "react";
-import { Input, Modal, Button } from "antd";
-import { FcSearch } from "react-icons/fc";
+import { Input, Modal, Button, message, Steps } from "antd";
+import { FcSearch, FcInTransit, FcSynchronize, FcShop } from "react-icons/fc";
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import Bg from "../../assets/images/bg.png";
-import StepsComponent from "../Steps/Steps";
-import mockUsers from "../../assets/data/data"; // Ensure the path is correct
+import ApiService from "../../Services/Api/ApiService";
+
+const getStepIcon = (status) => {
+  switch (status) {
+    case 'EnAttente':
+      return <FcSynchronize className="text-2xl" />;
+    case 'AuDepot':
+      return <FcShop className="text-2xl" />;
+    case 'Expedier':
+      return <FcInTransit className="text-2xl" />;
+    case 'Livre':
+      return <CheckCircleOutlined className="text-2xl text-green-500" />;
+    case 'Annuler':
+      return <CloseCircleOutlined className="text-2xl text-red-500" />;
+    default:
+      return null;
+  }
+};
 
 const Drawersuivi = () => {
   const [open, setOpen] = useState(false);
@@ -15,17 +32,35 @@ const Drawersuivi = () => {
     setSelectedLivraison(null); // Reset selection on modal close
   };
 
-  const handleSearch = () => {
-    const foundLivraison = mockUsers.find(
-      (livraison) => livraison.id === parseInt(inputId, 10)
-    );
-    if (foundLivraison) {
-      setSelectedLivraison(foundLivraison);
-      setOpen(true);
-    } else {
-      alert("Livraison non trouvée.");
+  const handleSearch = async () => {
+    try {
+      const foundLivraison = await ApiService.getCommandById(inputId);
+      if (foundLivraison) {
+        setSelectedLivraison(foundLivraison);
+        setOpen(true);
+      } else {
+        message.error("Livraison non trouvée.");
+      }
+    } catch (error) {
+      message.error("Erreur lors de la récupération de la livraison.");
+      console.error("Failed to fetch command data:", error);
     }
   };
+
+  let steps = [];
+  if (selectedLivraison) {
+    if (selectedLivraison.status === 'Annuler') {
+      steps = [{ title: 'Annulé', description: 'Cette commande a été annulée.', status: 'Annuler' }];
+    } else {
+      steps = [
+        { title: 'Remis au transporteur', description: `${selectedLivraison?.adresseVendeur}`, status: 'EnAttente' },
+        { title: 'Au dépôt', description: 'Résidence Farah Num61 Borj Cedria', status: 'AuDepot' },
+        { title: 'En cours de livraison', description: '', status: 'Expedier' },
+        { title: 'Livré', description: `${selectedLivraison?.adresseClient}`, status: 'Livre' }
+      ];
+    }
+  }
+  const currentStepIndex = steps.findIndex(step => step.status === selectedLivraison?.status);
 
   return (
     <div className="flex justify-center items-center h-screen w-full bg-gray-200">
@@ -66,7 +101,17 @@ const Drawersuivi = () => {
           onCancel={handleClose}
           footer={null}
         >
-          <StepsComponent livraison={selectedLivraison} />
+          <Steps
+            progressDot
+            current={currentStepIndex}
+            direction="vertical"
+            items={steps.map(step => ({
+              title: step.title,
+              description: step.description,
+              
+              status: step.status === 'Annuler' ? 'error' : 'finish'
+            }))}
+          />
         </Modal>
       </div>
     </div>

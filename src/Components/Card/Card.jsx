@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from 'antd'
 function CardSheet({ cardData = [] }) { // Default to an empty array if no data is passed
-    console.log(cardData);
+    
     return (
       <div className="flex flex-wrap justify-center gap-4 m-4">
         {cardData?.map((item, index) => (

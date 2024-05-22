@@ -8,13 +8,15 @@ const NewOrder = () => {
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.auth);
   const [form] = Form.useForm();
+  const userId=currentUser?.id
 
   const handleSubmit = async (values) => {
     try {
-      await ApiService.createCommand({
+      await ApiService.createCommand(currentUser?.id,{
         ...values,
-        adresseVendeur: currentUser?.address || '',
-        telephoneVendeur: currentUser?.telephone || '',
+        
+        adresseVendeur: currentUser?.adress || '',
+        telephoneVendeur: currentUser?.phone || '',
         villeVendeur: currentUser?.ville || '',
         status: 'EnAttente',  // Assuming 'EnAttente' is a valid status
       });
@@ -42,6 +44,13 @@ const NewOrder = () => {
           name="nomArticle"
           label="Produit"
           rules={[{ required: true, message: 'Veuillez saisir le nom du produit!' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="clientName"
+          label="Nom du client "
+          rules={[{ required: true, message: 'Veuillez saisir le nom du client!' }]}
         >
           <Input />
         </Form.Item>

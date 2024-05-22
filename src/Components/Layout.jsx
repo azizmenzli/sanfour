@@ -21,7 +21,7 @@ import logo2 from '../assets/images/logo-sanfour.png';
 const { Header, Content, Sider } = Layout;
 
 const CommonLayout = ({ children }) => {
-  const { user } = useSelector((state) => state.auth);
+  const { role,user } = useSelector((state) => state.auth);
   const [collapsed, setCollapsed] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,10 +41,12 @@ const CommonLayout = ({ children }) => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="profile" onClick={handleProfileClick}>
-        <UserOutlined />
-        Profile
-      </Menu.Item>
+      {role === "ADMIN" && (
+        <Menu.Item key="profile" onClick={handleProfileClick}>
+          <UserOutlined />
+          Profile
+        </Menu.Item>
+      )}
       <Menu.Item key="logout" onClick={handleLogout}>
         <LogoutOutlined />
         Logout
@@ -52,7 +54,7 @@ const CommonLayout = ({ children }) => {
     </Menu>
   );
 
-  const menuItems = user?.role === "Fournisseur" ? [
+  const menuItems = role === "VENDEUR" ? [
     { path: "/fournisseur-dashboard", name: "Dashboard", icon: <DashboardOutlined /> },
     { path: "/Nv-expedition", name: "Nouvelle Expedition", icon: <PlusCircleOutlined /> },
     { path: "/Suivi", name: "Suivi", icon: <UsergroupAddOutlined /> },
@@ -65,10 +67,16 @@ const CommonLayout = ({ children }) => {
     { path: "/Runsheet", name: "Runsheet", icon: <FileTextOutlined /> },
     { path: "/Ajouter-admin", name: "Ajouter un admin", icon: <UserAddOutlined /> },
     { path: "/Ajouter-fournisseur", name: "Ajouter un fournisseur", icon: <UsergroupAddOutlined /> },
-    { path: "/fournisseur-dashboard", name: "Ajouter un fournisseur", icon: <UsergroupAddOutlined /> },
-    { path: "/Suivi", name: "Suivi", icon: <UsergroupAddOutlined /> },
+   
+    
   ];
-
+  const handleLogoClick = () => {
+    if (role === 'ADMIN') {
+      navigate('/');
+    } else if (role === 'VENDEUR') {
+      navigate('/fournisseur-dashboard');
+    }
+  };
   return (
     <Layout className="min-h-screen">
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} theme="dark">
@@ -88,7 +96,7 @@ const CommonLayout = ({ children }) => {
       <Layout className="site-layout">
         <Header className="bg-dark flex items-center justify-between px-4 shadow">
           <div className="flex items-center">
-            <img src={logo} alt='logo' className="w-36 cursor-pointer" onClick={() => navigate('/')} />
+            <img src={logo} alt='logo' className="w-36 cursor-pointer" onClick={handleLogoClick} />
           </div>
           <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
             <Avatar size="large" icon={<UserOutlined />} className="cursor-pointer" />
