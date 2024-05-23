@@ -14,6 +14,8 @@ import {
   UserOutlined,
   LogoutOutlined
 } from '@ant-design/icons';
+import {  FaUsers } from 'react-icons/fa';
+
 import { logout } from '../features/slices/authSlice';
 import logo from '../assets/images/logo.png';
 import logo2 from '../assets/images/logo-sanfour.png';
@@ -67,6 +69,7 @@ const CommonLayout = ({ children }) => {
     { path: "/Runsheet", name: "Runsheet", icon: <FileTextOutlined /> },
     { path: "/Ajouter-admin", name: "Ajouter un admin", icon: <UserAddOutlined /> },
     { path: "/Ajouter-fournisseur", name: "Ajouter un fournisseur", icon: <UsergroupAddOutlined /> },
+    { path: "/Fournisseur", name: "Ajouter un fournisseur", icon: <FaUsers /> },
    
     
   ];

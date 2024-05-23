@@ -1,9 +1,10 @@
 import React,{useEffect,useState} from "react";
 import Tablev from "../Components/Tables/Tables";
 import CardFour from "../Components/CardFour/CardFour";
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { Table } from 'antd';
 import ApiService from "../Services/Api/ApiService";
+import { fetchVendeurs } from "../features/slices/vendeursSlice";
 const statusMapping = {
   EnAttente: "En Attente",
   Remis: "Remis",

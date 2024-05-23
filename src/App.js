@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 import CommonLayout from "./Components/Layout";
 import ChangePasswordForm from "./Components/Login/ChangePassword";
 import ProtectedRoute from "./Components/ProtectedRoute"; // Import the ProtectedRoute component
-
+import Fournissuers from "./pages/Fournissuers";
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const userRole = useSelector((state) => state.auth.role);
@@ -40,6 +40,7 @@ function App() {
           <Route path="/Ajouter-fournisseur" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><NewSeller /></CommonLayout></ProtectedRoute>} />
           <Route path="/Runsheet" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><Runsheet /></CommonLayout></ProtectedRoute>} />
           <Route path="/BonDeLivraison" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><BonDeLivraison /></CommonLayout></ProtectedRoute>} />
+          <Route path="/Fournisseur" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><Fournissuers /></CommonLayout></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     </div>

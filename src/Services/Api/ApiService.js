@@ -29,6 +29,7 @@ class ApiService {
                 role,
                 Adress,
                 Ville,
+                telephone
             });
             return response.data;
         } catch (error) {
@@ -114,7 +115,16 @@ class ApiService {
       } catch (error) {
           throw error;
       }
-  }                     
+  }
+  
+    async getVendeurCommands(){
+      try{
+        const response=await this.axiosInstance.get('/auth/vendeurs')
+        return response.data
+      }catch(error){
+        throw error
+      }
+    }
     // Additional methods as needed...
 }
 

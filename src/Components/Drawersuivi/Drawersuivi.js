@@ -60,8 +60,10 @@ const Drawersuivi = () => {
       ];
     }
   }
-  const currentStepIndex = steps.findIndex(step => step.status === selectedLivraison?.status);
-
+console.log(selectedLivraison);
+  // Determine the current step index based on the selectedLivraison status
+  const currentStepIndex = steps?.findIndex(step => step.status === selectedLivraison?.status);
+console.log(currentStepIndex);
   return (
     <div className="flex justify-center items-center h-screen w-full bg-gray-200">
       <div
@@ -108,8 +110,8 @@ const Drawersuivi = () => {
             items={steps.map(step => ({
               title: step.title,
               description: step.description,
-              
-              status: step.status === 'Annuler' ? 'error' : 'finish'
+              // icon: getStepIcon(step.status),
+              status: step.status === 'Annuler' ? 'error' : ''
             }))}
           />
         </Modal>

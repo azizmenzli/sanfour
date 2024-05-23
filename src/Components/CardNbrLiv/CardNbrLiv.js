@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { FaBox, FaCheckCircle, FaTimesCircle, FaTruck } from 'react-icons/fa';
+import { FaBox, FaCheckCircle, FaTimesCircle, FaTruck, FaUsers } from 'react-icons/fa';
 
 const CardNbrLiv = () => {
   const commands = useSelector((state) => state.command.commands);
@@ -8,12 +8,13 @@ const CardNbrLiv = () => {
   const colisAuDepot = commands.filter(command => command.status === 'AuDepot').length;
   const livraisonsEffectuees = commands.filter(command => command.status === 'Livre').length;
   const livraisonsAnnulees = commands.filter(command => command.status === 'Annuler').length;
-
+  const vendeurCount=useSelector((state)=>state.vendeurs.data.length)
   const cardData = [
     { title: 'Livraisons à accepter', count: livraisonsAaccepter, color: 'bg-blue-400', icon: <FaBox /> },
     { title: 'Colis au dépôt', count: colisAuDepot, color: 'bg-green-400', icon: <FaCheckCircle />  },
     { title: 'Livraisons effectuées', count: livraisonsEffectuees, color: 'bg-teal-400', icon:<FaTruck /> },
     { title: 'Livraisons annulées', count: livraisonsAnnulees, color: 'bg-red-400', icon: <FaTimesCircle /> },
+    { title: 'Total Fournisseurs', count:  vendeurCount, color: 'bg-purple-400', icon: <FaUsers /> },
   ];
 
   return (
