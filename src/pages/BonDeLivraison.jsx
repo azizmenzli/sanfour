@@ -86,7 +86,7 @@ const BonDeLivraison = () => {
           <canvas ref={barcodeCanvasRef} className="codebarres"></canvas>
         </div>
         <Divider />
-        <div className="info flex justify-between border-2 p-4 mb-6">
+        <div className="info flex justify-between border-2 p-4 ">
           <div>
             <h2 className="text-lg font-semibold">Expéditeur</h2>
             <p>Nom: {livraison.user.name}</p>
@@ -148,8 +148,8 @@ const BonDeLivraison = () => {
         <Divider />
         <footer className="text-center mt-6 border-dashed border-2 border-red-300 ">
           <h2 className="text-xl font-semibold mb-4">تنبيه</h2>
-          <ul className=" list-none mb-4 ">
-            <li>  <strong>الفصل الأول:</strong> شركة سنفور عجاجة هي شركة تقوم بنقل وإيصال البضائع من المزود للحريف لا غير حسب نشاط الشركة المبين باليطاقة الجبائية عدد 1868476M/A/M/000</li>
+          <ul className=" list-none  ">
+            <li>  <strong>الفصل الأول:</strong> شركة سنفور عجاجة هي شركة تقوم بنقل وإيصال البضائع من المزود للحريف لا غير حسب نشاط الشركة المبين باليطاقة الجبائية<br></br>   <strong> 1868476M/A/M/000عدد</strong></li>
            
             <li><strong>الفصل الثاني:</strong>تتسلم الشركة البضائع من المزود قصد ايصالها للحريف في صناديق كرطونية مغلقة</li>
             <li><strong>الفصل الثالث:</strong>لا تتحمل الشركة المسؤولية عن إخلال المزود في مايخص اللون والمقاسات( بالنسبة للملابس والاحذية) أو العطب والنوعية (في ما يخص بقية المواد) عند تسليمها للحريف</li>

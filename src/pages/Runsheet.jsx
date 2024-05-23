@@ -9,7 +9,7 @@ const Runsheet = () => {
   const inputRef = useRef(null);
   function extractBarcode(scannedBarcode){
     // Remove the '#' and ',' characters from the barcode
-    return scannedBarcode.replace(/[#,]/g, '');
+    return scannedBarcode.replace(/[#.,]/g, '');
   }
   const actualBarcode = extractBarcode(idSearch);
   const handleSearch = async () => {

@@ -77,7 +77,7 @@ const NewSeller = () => {
             <Input />
           </Form.Item>
           <div className="flex justify-center mt-4">
-            <Button type="primary" htmlType="submit">
+            <Button  htmlType="submit">
               Submit
             </Button>
             <Button htmlType="button" className="ml-4" onClick={() => form.resetFields()}>

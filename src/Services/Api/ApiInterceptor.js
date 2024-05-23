@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const apiUrl = 'http://localhost:3002';
-
+const apiUrl =" http://localhost:3002";
+console.log(apiUrl);
 
 class Interceptor {
   constructor() {
@@ -10,7 +10,7 @@ class Interceptor {
       headers: {
         "Content-type": "application/json"
       },
-    });
+    });  
 
     this.axiosInstance.interceptors.request.use(
       (config) => {

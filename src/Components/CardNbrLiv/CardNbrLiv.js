@@ -11,8 +11,8 @@ const CardNbrLiv = () => {
 
   const cardData = [
     { title: 'Livraisons à accepter', count: livraisonsAaccepter, color: 'bg-blue-400', icon: <FaBox /> },
-    { title: 'Colis au dépôt', count: colisAuDepot, color: 'bg-green-400', icon: <FaTruck /> },
-    { title: 'Livraisons effectuées', count: livraisonsEffectuees, color: 'bg-teal-400', icon: <FaCheckCircle /> },
+    { title: 'Colis au dépôt', count: colisAuDepot, color: 'bg-green-400', icon: <FaCheckCircle />  },
+    { title: 'Livraisons effectuées', count: livraisonsEffectuees, color: 'bg-teal-400', icon:<FaTruck /> },
     { title: 'Livraisons annulées', count: livraisonsAnnulees, color: 'bg-red-400', icon: <FaTimesCircle /> },
   ];
 
