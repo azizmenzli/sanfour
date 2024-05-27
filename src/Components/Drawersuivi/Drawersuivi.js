@@ -60,10 +60,10 @@ const Drawersuivi = () => {
       ];
     }
   }
-console.log(selectedLivraison);
+
   // Determine the current step index based on the selectedLivraison status
   const currentStepIndex = steps?.findIndex(step => step.status === selectedLivraison?.status);
-console.log(currentStepIndex);
+
   return (
     <div className="flex justify-center items-center h-screen w-full bg-gray-200">
       <div

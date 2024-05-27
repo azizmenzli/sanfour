@@ -46,9 +46,9 @@ const BonDeLivraison = () => {
   };
 
   // Calculate tax and total price
-  const montantHT = livraison.prixTTC;
-  const tva = montantHT * 0.19;
-  const prixTTC = montantHT + tva + deliveryFee;
+  const montantHT = livraison.prixTTC / 1.19;
+  const tva = livraison.prixTTC - montantHT;
+  const prixTTC = livraison.prixTTC + deliveryFee;
 
   return (
     <>
@@ -89,10 +89,10 @@ const BonDeLivraison = () => {
         <div className="info flex justify-between border-2 p-4 ">
           <div>
             <h2 className="text-lg font-semibold">Expéditeur</h2>
-            <p>Nom: {livraison.user.name}</p>
-            <p>Adresse: {livraison.adresseVendeur}</p>
-            <p>Ville: {livraison.villeVendeur}</p>
-            <p>Téléphone: {livraison.telephoneVendeur}</p>
+            <p>Nom: {livraison?.user?.name}</p>
+            <p>Adresse: {livraison?.adresseVendeur}</p>
+            <p>Ville: {livraison?.villeVendeur}</p>
+            <p>Téléphone: {livraison?.telephoneVendeur}</p>
           </div>
           <div>
             <h2 className="text-lg font-semibold">Destinataire</h2>
@@ -114,18 +114,18 @@ const BonDeLivraison = () => {
             <tbody>
               <tr>
                 <td className="border p-2 border-gray-300">{livraison.nomArticle}</td>
-                <td className="border p-2 border-gray-300">{livraison.prixTTC.toFixed(2)}</td>
+                <td className="border p-2 border-gray-300">{livraison.prixTTC.toFixed(3)}</td>
               </tr>
               {/* Ajouter d'autres lignes d'articles ici si nécessaire */}
             </tbody>
             <tfoot className="total-row">
               <tr>
                 <th className="text-center bg-gray-200 p-2 border border-gray-300">Montant HT</th>
-                <td className="text-center bg-gray-200 p-2 border border-gray-300">{montantHT.toFixed(2)}</td>
+                <td className="text-center bg-gray-200 p-2 border border-gray-300">{montantHT.toFixed(3)}</td>
               </tr>
               <tr>
                 <th className="text-center bg-gray-200 p-2 border border-gray-300">TVA 19%</th>
-                <td className="text-center bg-gray-200 p-2 border border-gray-300">{tva.toFixed(2)}</td>
+                <td className="text-center bg-gray-200 p-2 border border-gray-300">{tva.toFixed(3)}</td>
               </tr>
               <tr>
                 <th className="text-center bg-gray-200 p-2 border border-gray-300">Frais de livraison</th>
@@ -140,7 +140,7 @@ const BonDeLivraison = () => {
               </tr>
               <tr>
                 <th className="text-center bg-gray-200 p-2 border border-gray-300">Prix TTC</th>
-                <td className="text-center bg-gray-200 p-2 border border-gray-300">{prixTTC.toFixed(2)}</td>
+                <td className="text-center bg-gray-200 p-2 border border-gray-300">{prixTTC.toFixed(3)}</td>
               </tr>
             </tfoot>
           </table>

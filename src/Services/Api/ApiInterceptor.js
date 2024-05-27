@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const apiUrl =" http://localhost:3002";
-console.log(apiUrl);
+const apiUrl = "http://5.135.52.77:3000/";
+
 
 class Interceptor {
   constructor() {

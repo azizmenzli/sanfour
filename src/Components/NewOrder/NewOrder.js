@@ -54,15 +54,15 @@ const NewOrder = () => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="prixTTC"
           label="Prix HT"
           rules={[{ required: true, message: 'Veuillez saisir le prix TTC!' }]}
         >
           <InputNumber style={{ width: '100%' }} min={0} />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item
-          name="totalPrice"
+          name="Prix TTC"
           label="Prix TTC"
           rules={[{ required: true, message: 'Veuillez saisir le prix total!' }]}
         >

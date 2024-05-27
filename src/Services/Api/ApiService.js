@@ -125,6 +125,15 @@ class ApiService {
         throw error
       }
     }
+    async deleteUser(userId) {
+      try {
+          const response = await this.axiosInstance.delete(`/auth/${userId}`);
+          return response.data;
+      } catch (error) {
+          console.error('Error deleting user:', error);
+          throw error;
+      }
+  }
     // Additional methods as needed...
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table } from 'antd';
+import { Popconfirm, Button,Table } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import ApiService from '../Services/Api/ApiService';
 import { useDispatch,useSelector } from "react-redux";
 import { fetchVendeurs } from '../features/slices/vendeursSlice';
@@ -21,8 +22,33 @@ export default function Fournissuers() {
     { title: 'Telephone', dataIndex: 'telephone', key: 'telephone' },
     { title: 'Adresse', dataIndex: 'Adress', key: 'Adress' },
     { title: 'Nombre de Commandes', dataIndex: 'commandsCount', key: 'commandsCount' },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => {
+        
+        return(
+        <Popconfirm
+          title="Are you sure you want to delete this vendor?"
+          onConfirm={() => handleDelete(record.key)}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button icon={<DeleteOutlined />} type="danger" />
+        </Popconfirm>
+      )},
+    },
   ];
-
+  const handleDelete = async (id) => {
+    
+    try {
+      await ApiService.deleteUser(id); // Ensure this method and endpoint are correct.
+      dispatch(fetchVendeurs()); // Refetch the vendor list to update the table.
+    } catch (error) {
+      console.error('Failed to delete vendor:', error);
+      // Optionally display an error message to the user
+    }
+  };
   // Transform the data to include the commands count
   const dataSource = vendeurs.map((f) => ({
     key: f.id,

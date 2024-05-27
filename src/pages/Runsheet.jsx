@@ -7,11 +7,14 @@ const Runsheet = () => {
   const [idSearch, setIdSearch] = useState('');
   const [commandData, setCommandData] = useState([]);
   const inputRef = useRef(null);
-  function extractBarcode(scannedBarcode){
+
+  function extractBarcode(scannedBarcode) {
     // Remove the '#' and ',' characters from the barcode
     return scannedBarcode.replace(/[#.,]/g, '');
   }
+
   const actualBarcode = extractBarcode(idSearch);
+
   const handleSearch = async () => {
     const encodedBarcode = encodeURIComponent(actualBarcode);
     try {
@@ -30,7 +33,7 @@ const Runsheet = () => {
     {
       title: 'Command ID',
       dataIndex: 'commandId',
-      key: 'commandId',
+      key: 'command1Id',
     },
     {
       title: 'Article Name',
@@ -88,30 +91,63 @@ const Runsheet = () => {
     if (idSearch) {
       debouncedSearch();
     }
-
-    return () => {
-      debouncedSearch.cancel();
-    };
+    return () => debouncedSearch.cancel();
   }, [idSearch]);
 
   useEffect(() => {
     inputRef.current.focus(); // Auto-focus the input field when the component mounts
   }, []);
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="flex flex-col h-full">
+      <style>
+        {`
+          @media print {
+            body * {
+              visibility: hidden;
+            }
+            #printTable, #printTable * {
+              visibility: visible;
+            }
+            #printTable {
+              position: fixed;
+              left: 0;
+              top: 0;
+              width: 100%;
+              margin: 0;
+            }
+            .ant-table {
+              width: 100%;
+            }
+            .ant-table-thead > tr > th {
+              background-color: white;
+              color: black;
+              font-weight: bold;
+            }
+            .ant-table-tbody > tr > td {
+              background-color: white;
+              color: black;
+            }
+          }
+        `}
+      </style>
       <div className="flex flex-col mt-5 items-center">
         <h2 className="text-3xl text-gray-800 mb-5">Runsheet</h2>
         <Form className="w-full max-w-lg" layout="vertical">
           <Form.Item label="Id colis">
             <Input ref={inputRef} value={idSearch} onChange={e => setIdSearch(e.target.value)} />
           </Form.Item>
-          <div className="flex justify-center mt-4">
-            <Button type="primary" onClick={handleSearch}>Search</Button>
-            <Button onClick={handleReset} className="ml-4">Reset</Button>
+          <div className="flex justify-center mt-4 gap-4">
+            <Button  onClick={handleSearch} className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold  px-6 rounded-lg shadow-lg hover:shadow-xl transition duration-150 ease-in-out">Search</Button>
+            <Button onClick={handleReset} className="bg-gray-500 hover:bg-gray-600 text-white font-bold  px-6 rounded-lg shadow-lg hover:shadow-xl transition duration-150 ease-in-out">Reset</Button>
+            <Button onClick={handlePrint} className="bg-green-500 hover:bg-green-600 text-white font-bold  px-6 rounded-lg shadow-lg hover:shadow-xl transition duration-150 ease-in-out">Print</Button>
           </div>
         </Form>
-        <Table dataSource={commandData} columns={columns} rowKey="id" className="mt-8 w-full" />
+        <Table dataSource={commandData} columns={columns} rowKey="id" className="mt-8 w-full" id="printTable" />
       </div>
     </div>
   );

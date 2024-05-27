@@ -69,7 +69,7 @@ const CommonLayout = ({ children }) => {
     { path: "/Runsheet", name: "Runsheet", icon: <FileTextOutlined /> },
     { path: "/Ajouter-admin", name: "Ajouter un admin", icon: <UserAddOutlined /> },
     { path: "/Ajouter-fournisseur", name: "Ajouter un fournisseur", icon: <UsergroupAddOutlined /> },
-    { path: "/Fournisseur", name: "Ajouter un fournisseur", icon: <FaUsers /> },
+    { path: "/Fournisseur", name: "List des fournisseurs", icon: <FaUsers /> },
    
     
   ];
