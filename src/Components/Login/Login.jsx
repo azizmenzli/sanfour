@@ -63,7 +63,7 @@ const Login = () => {
             </Form>
           </Card>
           <div className="mt-16 text-gray-600">
-        &copy; 2024 Developed by AM-KW. All rights reserved.
+        &copy; 2024 Developed by AM-KS. All rights reserved.
       </div>
         </div>
         

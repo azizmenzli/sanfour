@@ -55,8 +55,10 @@ class ApiService {
         }
     }
     async createCommand(id,commandData) {
+      
         try {
           const response = await axiosInstance.post(`/commands/${id}`, commandData);
+          
           return response.data;
         } catch (error) {
           throw error;

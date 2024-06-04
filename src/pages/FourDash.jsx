@@ -2,7 +2,8 @@ import React,{useEffect,useState} from "react";
 import Tablev from "../Components/Tables/Tables";
 import CardFour from "../Components/CardFour/CardFour";
 import { useDispatch,useSelector } from "react-redux";
-import { Table } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { Table,Button } from 'antd';
 import ApiService from "../Services/Api/ApiService";
 import { fetchVendeurs } from "../features/slices/vendeursSlice";
 const statusMapping = {
@@ -14,6 +15,7 @@ const statusMapping = {
   Annuler: "Annulé"
 };
 const FourDash = () => {
+  const navigate = useNavigate();
   const [commands, setCommands] = useState([]);
   const userId = useSelector((state) => state.auth.id);
   useEffect(() => {
@@ -30,7 +32,9 @@ const FourDash = () => {
 }, [userId]);
 
 const columns = [
-    { title: 'Command ID', dataIndex: 'id', key: 'id' },
+    { title: 'Command ID', dataIndex: 'id', key: 'id',
+    render: text => <Button type="link" onClick={() => navigate(`/BonDeLivraison?id=${text}`)}>{text}</Button>
+     },
     { title: 'Article Name', dataIndex: 'nomArticle', key: 'nomArticle' },
     { title: 'Client Address', dataIndex: 'adresseClient', key: 'adresseClient' },
     { title: 'Client Phone', dataIndex: 'telephoneClient', key: 'telephoneClient' },

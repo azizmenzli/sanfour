@@ -39,7 +39,7 @@ function App() {
           <Route path="/Ajouter-admin" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><NewAdmin /></CommonLayout></ProtectedRoute>} />
           <Route path="/Ajouter-fournisseur" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><NewSeller /></CommonLayout></ProtectedRoute>} />
           <Route path="/Runsheet" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><Runsheet /></CommonLayout></ProtectedRoute>} />
-          <Route path="/BonDeLivraison" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><BonDeLivraison /></CommonLayout></ProtectedRoute>} />
+          <Route path="/BonDeLivraison" element={<ProtectedRoute roles={['ADMIN',"VENDEUR"]}><CommonLayout><BonDeLivraison /></CommonLayout></ProtectedRoute>} />
           <Route path="/Fournisseur" element={<ProtectedRoute roles={['ADMIN']}><CommonLayout><Fournissuers /></CommonLayout></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>

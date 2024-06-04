@@ -4,21 +4,40 @@ import { useSelector } from "react-redux";
 import bwipjs from "bwip-js";
 import Logo from "../assets/images/logo.png";
 import { Divider, Button, InputNumber } from "antd";
+import ApiService from "../Services/Api/ApiService";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 const BonDeLivraison = () => {
-  const { commands } = useSelector((state) => state.command);
-  
+  const [livraison, setLivraison] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   let query = useQuery();
   let id = parseInt(query.get("id"), 10);
   
-  const livraison = commands.find((livraison) => livraison.id === id);
+  // const livraison = commands.find((livraison) => livraison.id === id);
   const barcodeCanvasRef = useRef(null);
 
   const [deliveryFee, setDeliveryFee] = useState(7);
+useEffect(()=>{
+  const fetchCommand=async()=>{
+    setLoading(true)
+    setError(null)
+    try{const data= await ApiService.getCommandById(id)
+      setLivraison(data)
+    }catch(err){
+      console.error('Error fetching command',err)
+      setError(err.toString())
+    }
+    setLoading(false)
+  }
+  if(id){
+    fetchCommand()
+  }
+},[id])
+
 
   useEffect(() => {
     if (livraison && barcodeCanvasRef.current) {
@@ -36,6 +55,14 @@ const BonDeLivraison = () => {
       }
     }
   }, [livraison]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   if (!livraison) {
     return <p>Livraison non trouvée.</p>;
